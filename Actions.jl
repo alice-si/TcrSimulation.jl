@@ -7,12 +7,12 @@ module Actions
     import Items
 
     function vote(registry, candidate, agents)
-        count = length(registry) == 0 ? 0 : mean(registry)
-        benchmark = mean(registry)
+        count = 0
+        benchmark = length(registry) == 0 ? 0 : mean(registry)
         for agent in agents
             count += (Agents.evaluate(candidate, agent) > benchmark) ? 1 : 0
         end
-        # println("Candidate: $candidate Vote: $count")
+        # println("Candidate: $candidate Benchmark: $benchmark Vote: $count")
 
         return count > length(agents)/2;
     end
@@ -24,10 +24,10 @@ module Actions
         if (length(registry) >= 10)
             challenger = agents[rand(1:end)]
             println("Challenger: $challenger")
-            evaluations = evaluate.(registry, challenger)
+            evaluations = Agents.evaluate.(registry, challenger)
             worstIndex = indmin(evaluations);
             min = evaluations[worstIndex]
-            if !vote(benchmark, min, agents)
+            if !vote(registry, min, agents)
                 println("Challenge successful: $min")
                 deleteat!(registry, worstIndex)
             else
@@ -36,11 +36,11 @@ module Actions
         end
     end
 
-    function application(registry, agents)
+    function application(registry, history, agents)
         candidate = Items.getCandidate()
-        benchmark = length(registry) == 0 ? 0 : mean(registry)
-        println("Candidate: $candidate")
-        if vote(benchmark, candidate, agents)
+        push!(history, candidate)
+        # println("Candidate: $candidate")
+        if vote(registry, candidate, agents)
             push!(registry, candidate);
         end
     end

@@ -1,5 +1,7 @@
 module Agents
 
+    using Distributions
+
     mutable struct Agent{TI<:Integer, TF<:AbstractFloat}
         accuracy::TI
         balance::TF
@@ -17,9 +19,9 @@ module Agents
     end
 
     function evaluate(candidate, agent)
-        evaluation = candidate + randn() * (100-agent.accuracy)/3;
-        # println("Candidate: $candidate Evaluation: $evaluation")
-        return evaluation
+        evaluation = candidate + (100-agent.accuracy)/3
+        # acc = agent.accuracy
+        # println("Candidate: $candidate Agent: $acc Evaluation: $evaluation")
     end
 
 end

@@ -1,30 +1,43 @@
 include("./Agents.jl")
 include("./Items.jl")
 include("./Actions.jl")
+include("./Benchmarks.jl")
+
 import Agents
 import Items
 import Actions
+import Benchmarks
 
 using Plots
 using Distributions
 
 
-#PARAMETERS
-num_of_steps = 1000
-num_of_agents = 100
+function runSimulation(num_of_steps, num_of_agents, accuracy)
+    registry = []
+    history = []
+    agents = Agents.setupAgentsWithFixedAccuracy(num_of_agents, accuracy)
 
-#SETUP
-registry = []
-scores = [0.0]
-agents = Agents.setupAgentsWithFixedAccuracy(num_of_agents, 40)
+    for round in 1:num_of_steps
+        Actions.application(registry, history, agents)
+    end
 
-
-#MECHANICS
-for round in 1:num_of_steps
-    Actions.application(registry, agents)
-    push!(scores, mean(registry));
-
+    plot(scores, color="blue")
+    ev = Benchmarks.score(registry)
+    return ev
 end
 
-#RESULTS
-plot(scores, color="blue")
+for acc in 0:100:10
+    evs = []
+    for i in 1:100
+        push!(evs,runSimulation(500, 100, acc))
+    end
+    score = mean(evs)
+    println("Accuracy: $acc Score: $score")
+end
+
+
+
+
+#
+# #RESULTS
+# plot(scores, color="blue")
