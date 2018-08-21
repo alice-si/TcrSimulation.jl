@@ -21,17 +21,12 @@ function runSimulation(num_of_steps, num_of_agents, accuracy)
         Actions.application(registry, history, agents)
     end
 
-    plot(scores, color="blue")
-    ev = Benchmarks.score(registry)
-    return ev
+    Benchmarks.score(registry)
 end
 
-for acc in 0:100:10
-    evs = []
-    for i in 1:100
-        push!(evs,runSimulation(500, 100, acc))
-    end
-    score = mean(evs)
+#Run scenario (the impact of accuracy on list quality, 10 iterations)
+for acc in 0:10:100
+    score = mean([runSimulation(500, 100, acc) for i in 1:10])
     println("Accuracy: $acc Score: $score")
 end
 
