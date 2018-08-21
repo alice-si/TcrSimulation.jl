@@ -14,8 +14,8 @@ module Agents
         Agent[Agent(acc) for i in 1:count]
     end
 
-    function setupRandomAgents(count)
-        agents = Agent[Agent(trunc(Int, rand(Normal(50,20)))) for i in 1:count]
+    function setupRandomAgents(count, mean, std)
+        agents = Agent[Agent(trunc(Int, rand(Normal(mean, std)))) for i in 1:count]
     end
 
     function evaluate(candidate, agent)

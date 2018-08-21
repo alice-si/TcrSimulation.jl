@@ -8,10 +8,6 @@ import Items
 import Actions
 import Benchmarks
 
-using Plots
-using Distributions
-
-
 function runSimulation(num_of_steps, num_of_agents, accuracy)
     registry = []
     history = []
@@ -27,7 +23,8 @@ end
 #Run scenario (the impact of accuracy on list quality, 10 iterations)
 for acc in 0:10:100
     score = mean([runSimulation(500, 100, acc) for i in 1:10])
-    println("Accuracy: $acc Score: $score")
+    #println("Accuracy: $acc Score: $score")
+    println("$acc, $score")
 end
 
 
