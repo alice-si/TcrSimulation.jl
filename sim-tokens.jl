@@ -24,16 +24,14 @@ function runTokenSimulation(num_of_steps, num_of_agents, acc, div)
 end
 
 
+# score = mean([runTokenSimulation(1000, 50, 60, 20) for i in 1:100])
+# println(score)
 
 
-Run scenario (the impact of accuracy on list quality, 10 iterations)
-for acc in 0:10:100
-    score = mean([runTokenSimulation(1000, 100, acc, 20) for i in 1:20])
+
+#Run scenario (the impact of accuracy on list quality, 10 iterations)
+for acc in 0:2:100
+    score = mean([runTokenSimulation(1000, 50, acc, 20) for i in 1:30])
     println("$acc, $score")
     #println("$score")
 end
-
-
-#
-# #RESULTS
-# plot(scores, color="blue")

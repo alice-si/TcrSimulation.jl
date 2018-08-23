@@ -38,7 +38,7 @@ module Benchmarks
         normal = Benchmarks.meanAccuracy(agents)
         boost = effective-normal;
         println("Count: $count Accuracy boost: $boost")
-        return boost
+        return count
     end
 
 

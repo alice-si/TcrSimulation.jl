@@ -19,6 +19,12 @@ module Agents
     end
 
     function evaluate(candidate, agent)
+        evaluation = candidate + rand(Normal((100-agent.accuracy)/3, 3))
+        # acc = agent.accuracy
+        # println("Candidate: $candidate Agent: $acc Evaluation: $evaluation")
+    end
+
+    function evaluateFixed(candidate, agent)
         evaluation = candidate + (100-agent.accuracy)/3
         # acc = agent.accuracy
         # println("Candidate: $candidate Agent: $acc Evaluation: $evaluation")
