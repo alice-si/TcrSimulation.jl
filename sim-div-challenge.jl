@@ -8,10 +8,10 @@ import Items
 import Actions
 import Benchmarks
 
-function runSimulation(num_of_steps, num_of_agents, accuracy)
+function runDivSimulation(num_of_steps, num_of_agents, accuracy, div)
     registry = []
     history = []
-    agents = Agents.setupRandomAgents(num_of_agents, accuracy, 20)
+    agents = Agents.setupRandomAgents(num_of_agents, accuracy, div)
 
     for round in 1:num_of_steps
         Actions.application(registry, history, agents)

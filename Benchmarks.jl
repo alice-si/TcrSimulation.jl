@@ -16,4 +16,30 @@ module Benchmarks
         mean(registry)
     end
 
+    function meanAccuracy(agents)
+        accs = []
+        for agent in agents
+            push!(accs, agent.accuracy)
+        end
+        meanAccuracy = mean(accs)
+        return meanAccuracy
+    end
+
+    function effectiveAccuracy(agents)
+        eAcc = []
+        count = 0
+        for agent in agents
+            if agent.balance > 0
+                push!(eAcc, agent.accuracy)
+                count = count + 1
+            end
+        end
+        effective = mean(eAcc)
+        normal = Benchmarks.meanAccuracy(agents)
+        boost = effective-normal;
+        println("Count: $count Accuracy boost: $boost")
+        return boost
+    end
+
+
 end
