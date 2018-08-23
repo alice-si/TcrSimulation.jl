@@ -8,7 +8,7 @@ import Items
 import Actions
 import Benchmarks
 
-function runSimulation(num_of_steps, num_of_agents, acc)
+function runTokenSimulation(num_of_steps, num_of_agents, acc)
     registry = []
     history = []
     agents = Agents.setupRandomAgents(num_of_agents, acc, 20)
@@ -46,15 +46,13 @@ function runSimulation(num_of_steps, num_of_agents, acc)
     # end
 end
 
-m = mean([runSimulation(1500, 100, 70) for i in 1:20])
-println("Result: $m")
 
 
 
 #Run scenario (the impact of accuracy on list quality, 10 iterations)
-for std in 50:5:80
-    score = mean([runSimulation(1000, 50, std) for i in 1:10])
-    println("$score")
+for acc in 0:10:100
+    score = mean([runSimulation(1000, 100, acc) for i in 1:20])
+    println("$acc, $score")
     #println("$score")
 end
 
