@@ -74,6 +74,10 @@ module Actions
         end
     end
 
+    function fasterTokenChallenge(registry, agents)
+        Actions.tokenChallenge(registry, filter(a -> a.balance > 0, agents))
+    end
+
     function application(registry, history, agents)
         candidate = Items.getCandidate()
         push!(history, candidate)
