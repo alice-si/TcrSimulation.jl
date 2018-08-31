@@ -7,17 +7,15 @@ module Actions
     import Items
 
     function vote(registry, candidate, agents)
-        count = 0
+        pro = 0
         benchmark = length(registry) == 0 ? 0 : mean(registry)
         for agent in agents
-            count += (Agents.evaluate(candidate, agent) > benchmark) ? 1 : 0
+            pro += (Agents.evaluate(candidate, agent) > benchmark) ? 1 : 0
         end
-        # println("Candidate: $candidate Benchmark: $benchmark Vote: $count")
-
-        return count > length(agents)/2;
+        return pro > length(agents)/2;
     end
 
-    function tokenVote(registry, candidate, agents)
+    function tokenHoldersVote(registry, candidate, agents)
         pro = 0
         quorum = 0
         benchmark = length(registry) == 0 ? 0 : mean(registry)
@@ -27,8 +25,6 @@ module Actions
                 quorum += 1
             end
         end
-        # println("Candidate: $candidate Benchmark: $benchmark Vote: $count")
-
         return pro > quorum/2;
     end
 
@@ -46,7 +42,39 @@ module Actions
         return pro > quorum/2;
     end
 
-    function challenge(registry, agents)
+    function randomChallenger(agents)
+        agents[rand(1:end)]
+    end
+
+    function randomWithBalance(agents)
+        filteredAgents = filter(a -> a.balance > 10, agents)
+        randomChallenger(filteredAgents)
+    end
+
+    function noReward(votingResult, challenger, deposit)
+
+    end
+
+    function onlyChallengerReward(votingResult, challenger, deposit)
+        challenger.balance += 20.0
+    end
+
+    function challenge(registry, agents, challengerSelector, deposit, voteFunc, redistributionFunc)
+        if (length(registry) >= 10)
+            challenger = challengerSelector(agents)
+            challenger.balance -= 10.0
+            evaluations = Agents.evaluate.(registry, challenger)
+            worstIndex = indmin(evaluations);
+            min = evaluations[worstIndex]
+            votingResult = voteFunc(registry, min, agents)
+            if (!votingResult)
+                deleteat!(registry, worstIndex)
+            end
+            redistributionFunc(votingResult, challenger, deposit)
+        end
+    end
+
+    function oldChallenge(registry, agents)
         benchmark = length(registry) == 0 ? 0 : mean(registry)
         len = length(registry)
         #println("Len: $len")
@@ -65,44 +93,25 @@ module Actions
         end
     end
 
-    function tokenChallenge(registry, agents)
-        benchmark = length(registry) == 0 ? 0 : mean(registry)
-        if (length(registry) >= 10)
-            challenger = agents[rand(1:end)]
-            if (challenger.balance >= 10.0)
-                challenger.balance -= 10.0
-                #println("Challenger: $challenger")
-                evaluations = Agents.evaluate.(registry, challenger)
-                worstIndex = indmin(evaluations);
-                min = evaluations[worstIndex]
-                if !tokenVote(registry, min, agents)
-                    #println("Challenge successful: $min")
-                    deleteat!(registry, worstIndex)
-                    challenger.balance += 20.0
-                else
-                    #println("Challenge failed: $min")
-                end
-            else
-                #println("No funds!!!")
-            end
-        end
-    end
 
-    function proRataTokenChallenge(registry, agents)
+
+
+
+    function tokenChallenge(registry, agents, voteFunc)
         if (length(agents) > 0)
             benchmark = length(registry) == 0 ? 0 : mean(registry)
             if (length(registry) >= 10)
                 challenger = agents[rand(1:end)]
                 if (challenger.balance >= 10.0)
-                    challenger.balance -= 10.0
+
                     #println("Challenger: $challenger")
                     evaluations = Agents.evaluate.(registry, challenger)
                     worstIndex = indmin(evaluations);
                     min = evaluations[worstIndex]
-                    if !tokenProRataVote(registry, min, agents)
+                    if !voteFunc(registry, min, agents)
                         #println("Challenge successful: $min")
                         deleteat!(registry, worstIndex)
-                        challenger.balance += 20.0
+
                     else
                         #println("Challenge failed: $min")
                     end
@@ -111,14 +120,6 @@ module Actions
                 end
             end
         end
-    end
-
-    function fasterTokenChallenge(registry, agents)
-        Actions.tokenChallenge(registry, filter(a -> a.balance > 10, agents))
-    end
-
-    function fasterProRataTokenChallenge(registry, agents)
-        Actions.proRataTokenChallenge(registry, filter(a -> a.balance > 10, agents))
     end
 
     function application(registry, history, agents)

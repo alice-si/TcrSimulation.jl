@@ -17,21 +17,21 @@ function runTokenSimulation(num_of_steps, num_of_agents, acc, div)
         Actions.application(registry, history, agents)
         Actions.fasterTokenChallenge(registry, agents)
     end
-    len = length(registry)
 
+    # Benchmarks.accuracyBalanceCorrelation(agents)
     Benchmarks.score(registry)
     # Benchmarks.effectiveAccuracy(agents)
 end
 
 
-score = mean([runTokenSimulation(1000, 50, 60, 20) for i in 1:10])
+score = mean([runTokenSimulation(500, 50, 60, 20) for i in 1:10])
 println(score)
 
 
 
 #Run scenario (the impact of accuracy on list quality, 10 iterations)
 # for acc in 0:2:100
-#     score = mean([runTokenSimulation(1000, 50, acc, 20) for i in 1:30])
+#     score = mean([runTokenSimulation(1000, 50, acc, 20) for i in 1:20])
 #     println("$acc, $score")
 #     #println("$score")
 # end

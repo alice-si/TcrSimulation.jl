@@ -1,4 +1,5 @@
 module Benchmarks
+    using StatsBase
 
     function topMean(history, count)
         sorted = mean(sort(history, rev=true)[1:count])
@@ -12,7 +13,7 @@ module Benchmarks
         top10Mean(history) - mean(registry)
     end
 
-    function score(registry)
+    function registryMean(registry, agents)
         mean(registry)
     end
 
@@ -39,6 +40,12 @@ module Benchmarks
         boost = effective-normal;
         println("Count: $count Accuracy boost: $boost")
         return count
+    end
+
+    function accuracyBalanceCorrelation(agents)
+        a = [agent.accuracy for agent in agents]
+        b = [agent.balance for agent in agents]
+        corspearman(a, b)
     end
 
 

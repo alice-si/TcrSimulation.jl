@@ -30,7 +30,7 @@ end
 
 
 #Run scenario (the impact of accuracy on list quality, 10 iterations)
-for acc in 1:10:100
+for acc in 0:2:100
     score = mean([runTokenSimulation(1000, 50, acc, 20) for i in 1:30])
     println("$acc, $score")
     #println("$score")
