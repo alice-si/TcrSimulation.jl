@@ -19,13 +19,13 @@ function runTokenSimulation(num_of_steps, num_of_agents, acc, div)
     end
 
     # Benchmarks.accuracyBalanceCorrelation(agents)
-    Benchmarks.score(registry)
+    Benchmarks.registryMean(registry, agents)
     # Benchmarks.effectiveAccuracy(agents)
 end
 
 
-score = mean([runTokenSimulation(500, 50, 60, 20) for i in 1:10])
-println(score)
+# score = mean([runTokenSimulation(500, 50, 60, 20) for i in 1:10])
+# println(score)
 
 
 

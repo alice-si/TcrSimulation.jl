@@ -56,13 +56,13 @@ module Actions
     end
 
     function onlyChallengerReward(votingResult, challenger, deposit)
-        challenger.balance += 20.0
+        challenger.balance += 2 * deposit
     end
 
-    function challenge(registry, agents, challengerSelector, deposit, voteFunc, redistributionFunc)
+    function challenge(registry, agents, deposit, voteFunc, redistributionFunc)
         if (length(registry) >= 10)
-            challenger = challengerSelector(agents)
-            challenger.balance -= 10.0
+            challenger = agents[rand(1:end)]
+            challenger.balance -= deposit
             evaluations = Agents.evaluate.(registry, challenger)
             worstIndex = indmin(evaluations);
             min = evaluations[worstIndex]
@@ -72,55 +72,7 @@ module Actions
             end
             redistributionFunc(votingResult, challenger, deposit)
         end
-    end
-
-    function oldChallenge(registry, agents)
-        benchmark = length(registry) == 0 ? 0 : mean(registry)
-        len = length(registry)
-        #println("Len: $len")
-        if (length(registry) >= 10)
-            challenger = agents[rand(1:end)]
-            #println("Challenger: $challenger")
-            evaluations = Agents.evaluate.(registry, challenger)
-            worstIndex = indmin(evaluations);
-            min = evaluations[worstIndex]
-            if !vote(registry, min, agents)
-                #println("Challenge successful: $min")
-                deleteat!(registry, worstIndex)
-            else
-                #println("Challenge failed: $min")
-            end
-        end
-    end
-
-
-
-
-
-    function tokenChallenge(registry, agents, voteFunc)
-        if (length(agents) > 0)
-            benchmark = length(registry) == 0 ? 0 : mean(registry)
-            if (length(registry) >= 10)
-                challenger = agents[rand(1:end)]
-                if (challenger.balance >= 10.0)
-
-                    #println("Challenger: $challenger")
-                    evaluations = Agents.evaluate.(registry, challenger)
-                    worstIndex = indmin(evaluations);
-                    min = evaluations[worstIndex]
-                    if !voteFunc(registry, min, agents)
-                        #println("Challenge successful: $min")
-                        deleteat!(registry, worstIndex)
-
-                    else
-                        #println("Challenge failed: $min")
-                    end
-                else
-                    #println("No funds!!!")
-                end
-            end
-        end
-    end
+    end    
 
     function application(registry, history, agents)
         candidate = Items.getCandidate()
