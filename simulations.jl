@@ -65,7 +65,7 @@ end
 function binaryTokenChallenge(num_of_steps, num_of_agents, accuracy, benchmark)
     registry = []
     history = []
-    agents = Agents.setupRandomAgents(num_of_agents, accuracy, 20)
+    agents = Agents.setupRandomAgents(num_of_agents, accuracy, 10)
 
     for round in 1:num_of_steps
         Actions.application(registry, history, agents)
@@ -83,7 +83,7 @@ function proRataTokenChallenge(num_of_steps, num_of_agents, accuracy, benchmark)
 
     for round in 1:num_of_steps
         Actions.application(registry, history, agents)
-        Actions.challenge(registry, agents, Actions.randomWithBalance, 10, Actions.tokenProRataVote, Actions.onlyChallengerReward)
+        Actions.challenge(registry, agents, 10, Actions.tokenProRataVote, Actions.onlyChallengerReward)
     end
 
     benchmark(registry, agents)

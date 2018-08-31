@@ -24,15 +24,16 @@ end
 
 
 #Run scenario (the impact of accuracy on list quality, 10 iterations)
-for acc in 0:10:100
-    score = mean([runDivSimulation(1000, 100, acc, 20) for i in 1:20])
-    println("Accuracy: $acc Score: $score")
-
-end
-
-
+# for acc in 0:10:100
+#     score = mean([runSimulation(1000, 100, acc) for i in 1:20])
+#     #println("Accuracy: $acc Score: $score")
+#     println("$score")
+# end
 
 
+noToken = [runDivSimulation(1000, 50, 70, 20) for i in 1:30]
+m = mean(noToken)
+println(m)
 #
 # #RESULTS
 # plot(scores, color="blue")

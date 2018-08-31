@@ -55,8 +55,8 @@ module Actions
 
     end
 
-    function onlyChallengerReward(votingResult, challenger, deposit)
-        challenger.balance += 2 * deposit
+    function onlyChallengerReward(successful, challenger, deposit)
+        challenger.balance += successful ? 2 * deposit : 0
     end
 
     function challenge(registry, agents, deposit, voteFunc, redistributionFunc)
@@ -70,9 +70,28 @@ module Actions
             if (!votingResult)
                 deleteat!(registry, worstIndex)
             end
-            redistributionFunc(votingResult, challenger, deposit)
+            redistributionFunc(!votingResult, challenger, deposit)
         end
-    end    
+    end
+
+    function oldChallenge(registry, agents)
+        benchmark = length(registry) == 0 ? 0 : mean(registry)
+        len = length(registry)
+        #println("Len: $len")
+        if (length(registry) >= 10)
+            challenger = agents[rand(1:end)]
+            #println("Challenger: $challenger")
+            evaluations = Agents.evaluate.(registry, challenger)
+            worstIndex = indmin(evaluations);
+            min = evaluations[worstIndex]
+            if !vote(registry, min, agents)
+                #println("Challenge successful: $min")
+                deleteat!(registry, worstIndex)
+            else
+                #println("Challenge failed: $min")
+            end
+        end
+    end
 
     function application(registry, history, agents)
         candidate = Items.getCandidate()
