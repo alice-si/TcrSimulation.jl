@@ -1,23 +1,6 @@
-include("./Benchmarks.jl")
 
-import Benchmarks
-
-using HypothesisTests
-
-noToken = [highDiversityWithChallenge(1000, 50, 70, Benchmarks.registryMean) for i in 1:20]
-v = var(noToken)
-m = mean(noToken)
-
-println("Var: $v Mean: $m")
-
-
-
-token = [binaryTokenChallenge(1000, 50, 70, Benchmarks.registryMean) for i in 1:20]
-vt = var(token)
-mt = mean(token)
-
-println("Var: $vt Mean: $mt")
-
-t = UnequalVarianceTTest(noToken, token)
-
-println(t)
+for acc in 0:2:100
+    noToken = mean([highDiversityWithChallenge(1000, 50, acc, 10, Benchmarks.registryMean) for i in 1:20])
+    token = mean([binaryTokenChallenge(1000, 50, acc, 10, Benchmarks.registryMean) for i in 1:20])
+    println("$acc, $noToken, $token")
+end
