@@ -14,7 +14,7 @@ function fixedAgentsNoChallenge(num_of_steps, num_of_agents, accuracy, benchmark
     agents = Agents.setupAgentsWithFixedAccuracy(num_of_agents, accuracy)
 
     for round in 1:num_of_steps
-        Actions.application(registry, history, agents)
+        Actions.application(registry, history, agents, Actions.vote)
     end
 
     benchmark(registry, agents)
@@ -27,7 +27,7 @@ function fixedAgentsWithChallenge(num_of_steps, num_of_agents, accuracy, benchma
     agents = Agents.setupAgentsWithFixedAccuracy(num_of_agents, accuracy)
 
     for round in 1:num_of_steps
-        Actions.application(registry, history, agents)
+        Actions.application(registry, history, agents, Actions.vote)
         Actions.challenge(registry, agents, 0, Actions.vote, Actions.noReward)
     end
 
@@ -35,32 +35,32 @@ function fixedAgentsWithChallenge(num_of_steps, num_of_agents, accuracy, benchma
 end
 
 
-function diversityWithChallenge(num_of_steps, num_of_agents, accuracy, diversity, benchmark)
+function diversityWithChallenge(num_of_steps, num_of_agents, accuracy, diversity, benchmarks)
     registry = []
     history = []
     agents = Agents.setupRandomAgents(num_of_agents, accuracy, diversity)
 
     for round in 1:num_of_steps
-        Actions.application(registry, history, agents)
+        Actions.application(registry, history, agents, Actions.vote)
         Actions.challenge(registry, agents, 0, Actions.vote, Actions.noReward)
     end
 
-    benchmark(registry, agents)
+    [b(registry, agents) for b in benchmarks]
 end
 
 
 
-function binaryTokenChallenge(num_of_steps, num_of_agents, accuracy, diversity, benchmark)
+function binaryTokenChallenge(num_of_steps, num_of_agents, accuracy, diversity, benchmarks)
     registry = []
     history = []
     agents = Agents.setupRandomAgents(num_of_agents, accuracy, diversity)
 
     for round in 1:num_of_steps
-        Actions.application(registry, history, agents)
+        Actions.application(registry, history, agents, Actions.tokenHoldersVote)
         Actions.challenge(registry, filter(a -> a.balance > 0, agents), 10, Actions.tokenHoldersVote, Actions.onlyChallengerReward)
     end
 
-    benchmark(registry, agents)
+    [b(registry, agents) for b in benchmarks]
 end
 
 

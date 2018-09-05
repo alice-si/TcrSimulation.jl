@@ -74,30 +74,11 @@ module Actions
         end
     end
 
-    function oldChallenge(registry, agents)
-        benchmark = length(registry) == 0 ? 0 : mean(registry)
-        len = length(registry)
-        #println("Len: $len")
-        if (length(registry) >= 10)
-            challenger = agents[rand(1:end)]
-            #println("Challenger: $challenger")
-            evaluations = Agents.evaluate.(registry, challenger)
-            worstIndex = indmin(evaluations);
-            min = evaluations[worstIndex]
-            if !vote(registry, min, agents)
-                #println("Challenge successful: $min")
-                deleteat!(registry, worstIndex)
-            else
-                #println("Challenge failed: $min")
-            end
-        end
-    end
-
-    function application(registry, history, agents)
+    function application(registry, history, agents, voteFunc)
         candidate = Items.getCandidate()
         push!(history, candidate)
         # println("Candidate: $candidate")
-        if vote(registry, candidate, agents)
+        if voteFunc(registry, candidate, agents)
             push!(registry, candidate);
         end
     end

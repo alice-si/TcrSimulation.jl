@@ -17,7 +17,7 @@ module Benchmarks
         mean(registry)
     end
 
-    function meanAccuracy(agents)
+    function meanAccuracy(registry, agents)
         accs = []
         for agent in agents
             push!(accs, agent.accuracy)
@@ -26,7 +26,7 @@ module Benchmarks
         return meanAccuracy
     end
 
-    function effectiveAccuracy(agents)
+    function accuracyBoost(registry, agents)
         eAcc = []
         count = 0
         for agent in agents
@@ -36,17 +36,23 @@ module Benchmarks
             end
         end
         effective = mean(eAcc)
-        normal = Benchmarks.meanAccuracy(agents)
-        boost = effective-normal;
-        println("Count: $count Accuracy boost: $boost")
-        return count
+        normal = Benchmarks.meanAccuracy(registry, agents)
+        boost = effective-normal
     end
 
-    function accuracyBalanceCorrelation(agents)
+    function accuracyBalanceCorrelation(registry, agents)
         a = [agent.accuracy for agent in agents]
         b = [agent.balance for agent in agents]
         corspearman(a, b)
     end
+
+    function gini(registry, agents)
+        x = [agent.balance for agent in agents]
+        n = length(x)
+	    xx = sort(x)
+	    2*(sum(collect(1:n).*xx))/(n*sum(xx))-1
+    end
+
 
 
 end
