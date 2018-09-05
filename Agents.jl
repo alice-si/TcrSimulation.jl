@@ -8,7 +8,7 @@ module Agents
     end
 
     # constructor
-    Agent(a::Integer) = Agent(a, 100.0)
+    Agent(a::Integer) = Agent(min(100,a), 100.0)
 
     function setupAgentsWithFixedAccuracy(count, acc)
         Agent[Agent(acc) for i in 1:count]
