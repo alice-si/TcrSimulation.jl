@@ -40,9 +40,30 @@ module Benchmarks
         boost = effective-normal
     end
 
+    function activeAgents(registry, agents)
+        length(filter(a -> a.balance > 0, agents))
+    end
+
+    function weightedAccuracyBoost(registry, agents)
+        count = 0
+        eAcc = 0;
+        for agent in agents
+            if agent.balance > 0
+                eAcc += agent.balance * agent.accuracy
+                count += agent.balance
+            end
+        end
+        effective = eAcc/count
+        normal = Benchmarks.meanAccuracy(registry, agents)
+        boost = effective-normal
+    end
+
     function accuracyBalanceCorrelation(registry, agents)
         a = [agent.accuracy for agent in agents]
         b = [agent.balance for agent in agents]
+        # for ag in agents
+        #    println(ag.balance)
+        # end
         corspearman(a, b)
     end
 

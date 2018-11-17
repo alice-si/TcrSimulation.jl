@@ -4,8 +4,13 @@ module Redistribute
 
     end
 
-    function onlyChallengerReward(successful, challenger, deposit)
-        challenger.balance += successful ? 2 * deposit : 0
+    function onlyChallengerReward(result, challenger, deposit)
+        if (result[1])
+            # foreach(agent -> agent.balance += deposit / length(result[2]), result[2])
+        else
+            challenger.balance += 2 * deposit
+            # foreach(agent -> agent.balance -= deposit / length(result[3]), result[3])
+        end
     end
 
 end
