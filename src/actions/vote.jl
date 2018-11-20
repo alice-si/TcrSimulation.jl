@@ -11,7 +11,7 @@ function simpleVote(registry, candidate, agents, deposit)
     quorum = length(agents)
     benchmark = length(registry) == 0 ? 0 : mean(registry)
     for agent in agents
-        push!(evaluateCandidateByAgent(candidate, agent) > benchmark ? proagents : rejectAgents, agent)
+        push!(evaluateCandidateByAgent(candidate, agent) > benchmark ? proAgents : rejectAgents, agent)
     end
     [length(proAgents) > quorum/2, proAgents, rejectAgents]
 end
