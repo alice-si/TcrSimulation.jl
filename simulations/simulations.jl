@@ -94,3 +94,5 @@ end
 
 # d  = binaryTokenChallenge(1000, 50, 60, 10, [Benchmarks.registryMean])
 # println(d)
+
+#GPLOT2 - do wykresów
