@@ -20,11 +20,11 @@ function challenge(registry, agents, deposit, voteFunc, redistributionFunc)
     end
 end
 
-function application(registry, history, agents, voteFunc, deposit)
-    candidate = Items.getCandidate()
+function application(registry, history, agents, voteFunc)
+    candidate = getRegistryCandidate()
     push!(history, candidate)
     # println("Candidate: $candidate")
-    if voteFunc(registry, candidate, agents, deposit)[1]
+    if voteFunc(registry, candidate, agents)[1]
         push!(registry, candidate);
     end
 end

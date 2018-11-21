@@ -6,7 +6,7 @@ module TcrSimulations
 ##
 ##############################################################################
 
-using Distributions
+using Distributions, StatsBase
 
 ##############################################################################
 ##
@@ -15,17 +15,29 @@ using Distributions
 ##############################################################################
 
 export
-    #Items
-    getCandidate,
-    #Agents
+    #Agents:
     Agent,
     setupAgentsWithFixedAccuracy,
     setupRandomAgents,
     evaluateCandidateByAgent,
     evaluateCandidateByAgentPrecise,
-    #Actions,
+    #Items:
+    getCandidate,
+    #Actions:
     simpleVote,
-    tokenHoldersVote
+    tokenHoldersVote,
+    selectRandomAgent,
+    selectRandomAgentWithMinBalance,
+    noneRedistribution,
+    onlyChallengerRewardRedistribution,
+    challenge,
+    application,
+    #Simulations:
+    simFixedAgentsNoChallenge
+    #Benchmarks:
+    benchmarkRegistryMean
+
+
 
 ##############################################################################
 ##
@@ -36,5 +48,10 @@ export
 include("objects/items.jl")
 include("objects/agents.jl")
 include("actions/vote.jl")
+include("actions/select-agent.jl")
+include("actions/redistribute.jl")
+include("actions/composite-actions.jl")
+include("simulations/simulations.jl")
+include("simulations/benchmarks.jl")
 
 end # module TcrSimulations
