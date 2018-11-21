@@ -20,8 +20,8 @@ function challenge(registry, agents, deposit, voteFunc, redistributionFunc)
     end
 end
 
-function application(registry, history, agents, voteFunc)
-    candidate = getRegistryCandidate()
+function application(rng, registry, history, agents, voteFunc)
+    candidate = getRegistryCandidate(rng)
     push!(history, candidate)
     # println("Candidate: $candidate")
     if voteFunc(registry, candidate, agents)[1]

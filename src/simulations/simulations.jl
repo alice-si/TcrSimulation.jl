@@ -1,12 +1,12 @@
 
 
-function simFixedAgentsNoChallenge(num_of_steps, num_of_agents, accuracy, benchmarks)
+function simFixedAgentsNoChallenge(rng, num_of_steps, num_of_agents, accuracy, benchmarks)
     registry = []
     history = []
     agents = setupAgentsWithFixedAccuracy(num_of_agents, accuracy)
 
     for round in 1:num_of_steps
-        application(registry, history, agents, simpleVote)
+        application(rng, registry, history, agents, simpleVote)
     end
 
     [b(registry, agents) for b in benchmarks]

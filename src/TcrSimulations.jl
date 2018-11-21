@@ -33,7 +33,7 @@ export
     challenge,
     application,
     #Simulations:
-    simFixedAgentsNoChallenge
+    simFixedAgentsNoChallenge,
     #Benchmarks:
     benchmarkRegistryMean
 

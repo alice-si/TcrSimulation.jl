@@ -1,3 +1,3 @@
-function getRegistryCandidate()
-    rand(Normal(50,20))
+function getRegistryCandidate(rng)
+    rand(rng, Normal(50,20))
 end
