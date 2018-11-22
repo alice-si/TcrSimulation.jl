@@ -1,7 +1,5 @@
-using FactCheck
-
 facts("Testing random agent selection") do
-    agents = TcrSimulations.setupAgentsWithFixedAccuracy(1, 100)
+    agents = TcrCore.setupAgentsWithFixedAccuracy(1, 100)
     onlyAgent = agents[1]
-    @fact TcrSimulations.selectRandomAgent(agents) --> onlyAgent
+    @fact TcrCore.selectRandomAgent(agents) --> onlyAgent
 end

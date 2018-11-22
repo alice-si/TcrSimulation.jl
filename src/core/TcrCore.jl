@@ -1,4 +1,4 @@
-module TcrSimulations
+module TcrCore
 
 ##############################################################################
 ##
@@ -6,7 +6,7 @@ module TcrSimulations
 ##
 ##############################################################################
 
-using Distributions, StatsBase
+using Distributions
 
 ##############################################################################
 ##
@@ -54,7 +54,5 @@ include("actions/select-agent.jl")
 include("actions/redistribute.jl")
 include("actions/composite-actions.jl")
 include("simulations/simulations.jl")
-include("simulations/benchmarks.jl")
-include("simulations/scenarios.jl")
 
 end # module TcrSimulations
