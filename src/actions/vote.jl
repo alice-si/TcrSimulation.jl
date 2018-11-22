@@ -5,7 +5,6 @@ The basic voting function when every agent's got an equal voting power
 and the candidate is being compared to the registry mean
 """
 function simpleVote(registry, candidate, agents)
-    println("Vote2")
     rejectAgents = []
     proAgents = []
     quorum = length(agents)

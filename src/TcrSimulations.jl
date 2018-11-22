@@ -35,7 +35,9 @@ export
     #Simulations:
     simFixedAgentsNoChallenge,
     #Benchmarks:
-    benchmarkRegistryMean
+    benchmarkRegistryMean,
+    #Scenarios:
+    compareRegistryQuality
 
 
 
@@ -53,5 +55,6 @@ include("actions/redistribute.jl")
 include("actions/composite-actions.jl")
 include("simulations/simulations.jl")
 include("simulations/benchmarks.jl")
+include("simulations/scenarios.jl")
 
 end # module TcrSimulations
