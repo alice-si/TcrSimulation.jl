@@ -1,19 +1,17 @@
 
-function challenge(registry, agents, deposit, voteFunc, redistributionFunc)
+function challenge(rng, registry, agents, deposit, voteFunc, redistributionFunc)
     if (length(registry) >= 10)
-        challenger = agents[rand(1:end)]
-        evaluations = Agents.evaluate.(registry, challenger)
-        worstIndex = indmin(evaluations);
-        min = evaluations[worstIndex]
+        challenger = agents[rand(rng, 1:end)]
+        evaluations = evaluateCandidateByAgent.(registry, challenger)
+        challengedIndex = indmin(evaluations);
+        challengedValue = evaluations[challengedIndex]
 
         # if (min < mean(registry))
             challenger.balance -= deposit
 
-            # objective = registry[worstIndex]
-            # println("Challenge:  $min Objective: $objective")
-            votingResult = voteFunc(registry, min, agents, deposit)
+            votingResult = voteFunc(registry, registryMean(registry), challengedValue, agents)
             if (!votingResult[1])
-                deleteat!(registry, worstIndex)
+                deleteat!(registry, challengedIndex)
             end
             redistributionFunc(votingResult, challenger, deposit)
         # end
@@ -24,7 +22,7 @@ function application(rng, registry, history, agents, voteFunc)
     candidate = getRegistryCandidate(rng)
     push!(history, candidate)
     # println("Candidate: $candidate")
-    if voteFunc(registry, candidate, agents)[1]
+    if voteFunc(registry, registryMean(registry), candidate, agents)[1]
         push!(registry, candidate);
     end
 end

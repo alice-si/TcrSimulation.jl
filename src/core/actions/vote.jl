@@ -4,11 +4,10 @@
 The basic voting function when every agent's got an equal voting power
 and the candidate is being compared to the registry mean
 """
-function simpleVote(registry, candidate, agents)
+function simpleVote(registry, benchmark, candidate, agents)
     rejectAgents = []
     proAgents = []
     quorum = length(agents)
-    benchmark = length(registry) == 0 ? 0 : mean(registry)
     for agent in agents
         push!(evaluateCandidateByAgent(candidate, agent) > benchmark ? proAgents : rejectAgents, agent)
     end
@@ -28,11 +27,10 @@ end
 #     return pro > quorum/2;
 # end
 #
-function tokenHoldersVote(registry, candidate, agents)
+function tokenHoldersVote(registry, benchmark, candidate, agents)
     rejectAgents = []
     proAgents = []
     quorum = 0
-    benchmark = length(registry) == 0 ? 0 : mean(registry)
     for agent in agents
         if agent.balance > 0
             if (Agents.evaluate(candidate, agent) <= benchmark)

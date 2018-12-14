@@ -23,6 +23,7 @@ export
     evaluateCandidateByAgentPrecise,
     #Items:
     getCandidate,
+    registryMean,
     #Actions:
     simpleVote,
     tokenHoldersVote,
@@ -34,10 +35,8 @@ export
     application,
     #Simulations:
     simFixedAgentsNoChallenge,
-    #Benchmarks:
-    benchmarkRegistryMean,
-    #Scenarios:
-    compareRegistryQuality
+    simFixedAgentsWithChallenge
+
 
 
 

@@ -13,18 +13,19 @@ function simFixedAgentsNoChallenge(rng, num_of_steps, num_of_agents, accuracy, b
 end
 
 
-# function fixedAgentsWithChallenge(num_of_steps, num_of_agents, accuracy, benchmarks)
-#     registry = []
-#     history = []
-#     agents = Agents.setupAgentsWithFixedAccuracy(num_of_agents, accuracy)
-#
-#     for round in 1:num_of_steps
-#         Actions.application(registry, history, agents, Vote.simple)
-#         Actions.challenge(registry, agents, 0, Vote.simple, Redistribute.none)
-#     end
-#
-#     [b(registry, agents) for b in benchmarks]
-# end
+function simFixedAgentsWithChallenge(rng, num_of_steps, num_of_agents, accuracy, benchmarks)
+    registry = []
+    history = []
+    agents = setupAgentsWithFixedAccuracy(num_of_agents, accuracy)
+
+    for round in 1:num_of_steps
+        application(rng, registry, history, agents, simpleVote)
+        challenge(rng, registry, agents, 0, simpleVote, noneRedistribution)
+    end
+
+    [b(registry, agents) for b in benchmarks]
+end
+
 #
 #
 # function diversityWithChallenge(num_of_steps, num_of_agents, accuracy, diversity, benchmarks)
