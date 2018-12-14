@@ -21,9 +21,11 @@ export
     setupRandomAgents,
     evaluateCandidateByAgent,
     evaluateCandidateByAgentPrecise,
+    
     #Items:
     getCandidate,
     registryMean,
+
     #Actions:
     simpleVote,
     tokenHoldersVote,
@@ -33,9 +35,11 @@ export
     onlyChallengerRewardRedistribution,
     challenge,
     application,
+
     #Simulations:
     simFixedAgentsNoChallenge,
-    simFixedAgentsWithChallenge
+    simFixedAgentsWithChallenge,
+    simDiversifiedAgentsWithChallenge
 
 
 

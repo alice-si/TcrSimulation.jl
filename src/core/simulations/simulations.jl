@@ -26,6 +26,19 @@ function simFixedAgentsWithChallenge(rng, num_of_steps, num_of_agents, accuracy,
     [b(registry, agents) for b in benchmarks]
 end
 
+
+function simDiversifiedAgentsWithChallenge(rng, num_of_steps, num_of_agents, accuracy, std, benchmarks)
+    registry = []
+    history = []
+    agents = setupRandomAgents(num_of_agents, accuracy, rng, std)
+
+    for round in 1:num_of_steps
+        application(rng, registry, history, agents, simpleVote)
+        challenge(rng, registry, agents, 0, simpleVote, noneRedistribution)
+    end
+
+    [b(registry, agents) for b in benchmarks]
+end
 #
 #
 # function diversityWithChallenge(num_of_steps, num_of_agents, accuracy, diversity, benchmarks)

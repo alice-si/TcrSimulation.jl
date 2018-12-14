@@ -10,8 +10,8 @@ function setupAgentsWithFixedAccuracy(count, acc)
     Agent[Agent(acc) for i in 1:count]
 end
 
-function setupRandomAgents(count, mean, std)
-    agents = Agent[Agent(trunc(Int, rand(Normal(mean, std)))) for i in 1:count]
+function setupRandomAgents(count, mean, rng, std)
+    agents = Agent[Agent(trunc(Int, rand(rng, Normal(mean, std)))) for i in 1:count]
 end
 
 """
