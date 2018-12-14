@@ -23,16 +23,16 @@ function evaluateCandidateByAgent(rng, candidate, agent)
     end
 end
 
-"""
-TODO: consider parametrising the evaluate function
-"""
-function evaluateCandidateByAgentOld(rng, candidate, agent)
+# """
+# TODO: consider parametrising the evaluate function
+# """
+function evaluateCandidateByAgentRandomized(rng, candidate, agent)
     evaluation = candidate + rand(rng, Normal((100-agent.accuracy)/3, 3))
     # acc = agent.accuracy
     # println("Candidate: $candidate Agent: $acc Evaluation: $evaluation")
 end
 
-function evaluateCandidateByAgentPrecise(candidate, agent)
+function evaluateCandidateByAgentFixed(rng, candidate, agent)
     evaluation = candidate + (100-agent.accuracy)/3
     # acc = agent.accuracy
     # println("Candidate: $candidate Agent: $acc Evaluation: $evaluation")

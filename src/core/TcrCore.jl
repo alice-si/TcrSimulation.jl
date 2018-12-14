@@ -21,14 +21,15 @@ export
     setupRandomAgents,
     evaluateCandidateByAgent,
     evaluateCandidateByAgentPrecise,
-    
+
     #Items:
     getCandidate,
     registryMean,
 
     #Actions:
     simpleVote,
-    tokenHoldersVote,
+    binaryTokenVote,
+    proRataTokenVote,
     selectRandomAgent,
     selectRandomAgentWithMinBalance,
     noneRedistribution,
@@ -39,7 +40,9 @@ export
     #Simulations:
     simFixedAgentsNoChallenge,
     simFixedAgentsWithChallenge,
-    simDiversifiedAgentsWithChallenge
+    simDiversifiedAgentsWithChallenge,
+    simWithBinTokens,
+    simWithProRataTokens
 
 
 

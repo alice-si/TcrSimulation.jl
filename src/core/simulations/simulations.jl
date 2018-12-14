@@ -41,18 +41,33 @@ function simDiversifiedAgentsWithChallenge(rng, num_of_steps, num_of_agents, acc
 end
 
 
-function simWithTokens(rng, num_of_steps, num_of_agents, accuracy, std, benchmarks)
+function simWithBinTokens(rng, num_of_steps, num_of_agents, accuracy, std, benchmarks)
     registry = []
     history = []
     agents = setupRandomAgents(rng, num_of_agents, accuracy, std)
 
     for round in 1:num_of_steps
-        application(rng, registry, history, agents, tokenHoldersVote)
-        challenge(rng, registry, agents, 0, simpleVote, noneRedistribution)
+        application(rng, registry, history, agents, binaryTokenVote)
+        challenge(rng, registry, agents, 10, binaryTokenVote, onlyChallengerRewardRedistribution)
     end
 
     [b(registry, agents) for b in benchmarks]
 end
+
+function simWithProRataTokens(rng, num_of_steps, num_of_agents, accuracy, std, benchmarks)
+    registry = []
+    history = []
+    agents = setupRandomAgents(rng, num_of_agents, accuracy, std)
+
+    for round in 1:num_of_steps
+        application(rng, registry, history, agents, proRataTokenVote)
+        challenge(rng, registry, agents, 10, proRataTokenVote, onlyChallengerRewardRedistribution)
+    end
+
+    [b(registry, agents) for b in benchmarks]
+end
+
+
 
 #
 #
