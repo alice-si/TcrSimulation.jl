@@ -4,36 +4,28 @@
 The basic voting function when every agent's got an equal voting power
 and the candidate is being compared to the registry mean
 """
-function simpleVote(registry, benchmark, candidate, agents)
+function simpleVote(rng, benchmark, candidate, agents)
     rejectAgents = []
     proAgents = []
     quorum = length(agents)
     for agent in agents
-        push!(evaluateCandidateByAgent(candidate, agent) > benchmark ? proAgents : rejectAgents, agent)
+        push!(evaluateCandidateByAgent(rng, candidate, agent) >= benchmark ? proAgents : rejectAgents, agent)
     end
     [length(proAgents) > quorum/2, proAgents, rejectAgents]
 end
 
-# function oldTokenHoldersVote(registry, candidate, agents, deposit)
-#     pro = 0
-#     quorum = 0
-#     benchmark = length(registry) == 0 ? 0 : mean(registry)
-#     for agent in agents
-#         if agent.balance > 0
-#             pro += (Agents.evaluate(candidate, agent) >  benchmark) ? 1 : 0
-#             quorum += 1
-#         end
-#     end
-#     return pro > quorum/2;
-# end
-#
-function tokenHoldersVote(registry, benchmark, candidate, agents)
+
+"""
+The voting function when every agent's got an equal voting power
+but only agents who hold some tokens are eligible to participate
+"""
+function binaryTokenVote(rng, benchmark, candidate, agents)
     rejectAgents = []
     proAgents = []
     quorum = 0
     for agent in agents
         if agent.balance > 0
-            if (Agents.evaluate(candidate, agent) <= benchmark)
+            if (evaluateCandidateByAgent(rng, candidate, agent) <= benchmark)
                 push!(rejectAgents, agent)
             else
                 push!(proAgents, agent)
@@ -44,17 +36,26 @@ function tokenHoldersVote(registry, benchmark, candidate, agents)
     [length(proAgents) > quorum/2, proAgents, rejectAgents]
 end
 
-#
-# function tokenProRataVote(registry, candidate, agents)
-#     pro = 0
-#     quorum = 0
-#     benchmark = length(registry) == 0 ? 0 : mean(registry)
-#     for agent in agents
-#         if agent.balance > 0
-#             pro += (Agents.evaluate(candidate, agent) > benchmark) ? agent.balance : 0
-#             quorum += agent.balance
-#         end
-#     end
-#
-#     return pro > quorum/2;
-# end
+
+"""
+The voting function when every agent's got a voting power
+proportional to the amount of tokens under possesion
+"""
+function proRataTokenVote(rng, benchmark, candidate, agents)
+    rejectAgents = []
+    proAgents = []
+    proTokens = 0
+    quorum = 0
+    for agent in agents
+        if agent.balance > 0
+            if (evaluateCandidateByAgent(rng, candidate, agent) <= benchmark)
+                push!(rejectAgents, agent)
+            else
+                proTokens += agent.balance
+                push!(proAgents, agent)
+            end
+            quorum += agent.balance
+        end
+    end
+    [proTokens > quorum/2, proAgents, rejectAgents]
+end

@@ -30,7 +30,7 @@ end
 function simDiversifiedAgentsWithChallenge(rng, num_of_steps, num_of_agents, accuracy, std, benchmarks)
     registry = []
     history = []
-    agents = setupRandomAgents(num_of_agents, accuracy, rng, std)
+    agents = setupRandomAgents(rng, num_of_agents, accuracy, std)
 
     for round in 1:num_of_steps
         application(rng, registry, history, agents, simpleVote)
@@ -39,20 +39,21 @@ function simDiversifiedAgentsWithChallenge(rng, num_of_steps, num_of_agents, acc
 
     [b(registry, agents) for b in benchmarks]
 end
-#
-#
-# function diversityWithChallenge(num_of_steps, num_of_agents, accuracy, diversity, benchmarks)
-#     registry = []
-#     history = []
-#     agents = Agents.setupRandomAgents(num_of_agents, accuracy, diversity)
-#
-#     for round in 1:num_of_steps
-#         Actions.application(registry, history, agents, Vote.simple, 0)
-#         Actions.challenge(registry, agents, 0, Vote.simple, Redistribute.none)
-#     end
-#
-#     [b(registry, agents) for b in benchmarks]
-# end
+
+
+function simWithTokens(rng, num_of_steps, num_of_agents, accuracy, std, benchmarks)
+    registry = []
+    history = []
+    agents = setupRandomAgents(rng, num_of_agents, accuracy, std)
+
+    for round in 1:num_of_steps
+        application(rng, registry, history, agents, tokenHoldersVote)
+        challenge(rng, registry, agents, 0, simpleVote, noneRedistribution)
+    end
+
+    [b(registry, agents) for b in benchmarks]
+end
+
 #
 #
 #

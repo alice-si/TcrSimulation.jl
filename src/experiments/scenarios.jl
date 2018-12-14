@@ -12,4 +12,3 @@ function compareRegistryQuality(rng)
 end
 
 rng = MersenneTwister(1234);
-compareRegistryQuality(rng);
