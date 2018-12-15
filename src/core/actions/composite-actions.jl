@@ -19,7 +19,7 @@ function challenge(rng, registry, agents, deposit, voteFunc, redistributionFunc)
 end
 
 function application(rng, registry, history, agents, voteFunc)
-    candidate = getRegistryCandidate(rng)
+    candidate = getRegistryCandidate()
     push!(history, candidate)
     # println("Candidate: $candidate")
     if voteFunc(rng, registryMean(registry), candidate, agents)[1]
