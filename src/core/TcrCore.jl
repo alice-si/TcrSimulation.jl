@@ -38,11 +38,21 @@ export
     application,
 
     #Simulations:
-    simFixedAgentsNoChallenge,
-    simFixedAgentsWithChallenge,
-    simDiversifiedAgentsWithChallenge,
-    simWithBinTokens,
-    simWithProRataTokens
+    simSimple,
+    simChallenge
+
+
+    #Experiments
+    # sim,
+    # sim2
+
+    #
+    # simFixedAgentsNoChallenge,
+    # simFixedAgentsWithChallenge,
+    # simDiversifiedAgentsWithChallenge,
+    # simWithBinTokens,
+    # simWithProRataTokens,
+    # simWithTokensMixed
 
 
 
@@ -60,5 +70,7 @@ include("actions/select-agent.jl")
 include("actions/redistribute.jl")
 include("actions/composite-actions.jl")
 include("simulations/simulations.jl")
+include("experiments/benchmarks.jl")
+include("experiments/scenarios.jl")
 
 end # module TcrSimulations

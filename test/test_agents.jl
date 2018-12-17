@@ -7,7 +7,8 @@ facts("Testing creation of fixed accuracy agents pool") do
 end
 
 facts("Testing creation of low diversified accuracy agents pool") do
-    agents = TcrCore.setupRandomAgents(MersenneTwister(1234), 5, 50, 10)
+    srand(1234)
+    agents = TcrCore.setupRandomAgents(5, 50, 10)
     @fact length(agents) --> 5
     @fact agents[1].accuracy --> 58
     @fact agents[2].accuracy --> 40
@@ -17,7 +18,8 @@ facts("Testing creation of low diversified accuracy agents pool") do
 end
 
 facts("Testing creation of high diversified accuracy agents pool") do
-    agents = TcrCore.setupRandomAgents(MersenneTwister(1234), 5, 50, 20)
+    srand(1234)
+    agents = TcrCore.setupRandomAgents(5, 50, 20)
     @fact length(agents) --> 5
     @fact agents[1].accuracy --> 67
     @fact agents[2].accuracy --> 31
@@ -40,9 +42,9 @@ facts("Testing candidate evaluation by a high accuracy agent") do
     @fact TcrCore.evaluateCandidateByAgent(MersenneTwister(1234), 80, agent) --> 88.67347201951246
 end
 #
-# facts("Testing candidate evaluation by a medium accuracy agent") do
-#     agent = Agent(50)
-#     @fact TcrCore.evaluateCandidateByAgent(rng, 30, agent) --> 76.31957394313864
-#     @fact TcrCore.evaluateCandidateByAgent(rng, 50, agent) --> 70.694085795423
-#     @fact TcrCore.evaluateCandidateByAgent(rng, 80, agent) --> 82.75240315805439
-# end
+facts("Testing candidate evaluation by a medium accuracy agent") do
+    agent = Agent(50)
+    @fact TcrCore.evaluateCandidateByAgent(rng, 30, agent) --> 76.31957394313864
+    @fact TcrCore.evaluateCandidateByAgent(rng, 50, agent) --> 70.694085795423
+    @fact TcrCore.evaluateCandidateByAgent(rng, 80, agent) --> 82.75240315805439
+end

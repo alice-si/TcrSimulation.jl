@@ -1,71 +1,108 @@
 
 
-function simFixedAgentsNoChallenge(rng, num_of_steps, num_of_agents, accuracy, benchmarks)
+function simSimple(num_of_steps, agents, benchmarks)
     registry = []
     history = []
-    agents = setupAgentsWithFixedAccuracy(num_of_agents, accuracy)
 
     for round in 1:num_of_steps
-        application(rng, registry, history, agents, simpleVote)
+        application(registry, history, agents, simpleVote)
+    end
+
+    [b(registry, agents) for b in benchmarks]
+end
+
+function simChallenge(num_of_steps, agents, benchmarks)
+    registry = []
+    history = []
+
+    for round in 1:num_of_steps
+        application(registry, history, agents, simpleVote)
+        challenge(registry, agents, 0, simpleVote, noneRedistribution)
+    end
+
+    [b(registry, agents) for b in benchmarks]
+end
+
+function simToken(num_of_steps, agents, benchmarks)
+    registry = []
+    history = []
+
+    for round in 1:num_of_steps
+        application(registry, history, agents, proRataTokenVote)
+        challenge(registry, agents, 10, proRataTokenVote, onlyChallengerRewardRedistribution)
     end
 
     [b(registry, agents) for b in benchmarks]
 end
 
 
-function simFixedAgentsWithChallenge(rng, num_of_steps, num_of_agents, accuracy, benchmarks)
-    registry = []
-    history = []
-    agents = setupAgentsWithFixedAccuracy(num_of_agents, accuracy)
-
-    for round in 1:num_of_steps
-        application(rng, registry, history, agents, simpleVote)
-        challenge(rng, registry, agents, 0, simpleVote, noneRedistribution)
-    end
-
-    [b(registry, agents) for b in benchmarks]
-end
-
-
-function simDiversifiedAgentsWithChallenge(rng, num_of_steps, num_of_agents, accuracy, std, benchmarks)
-    registry = []
-    history = []
-    agents = setupRandomAgents(rng, num_of_agents, accuracy, std)
-
-    for round in 1:num_of_steps
-        application(rng, registry, history, agents, simpleVote)
-        challenge(rng, registry, agents, 0, simpleVote, noneRedistribution)
-    end
-
-    [b(registry, agents) for b in benchmarks]
-end
-
-
-function simWithBinTokens(rng, num_of_steps, num_of_agents, accuracy, std, benchmarks)
-    registry = []
-    history = []
-    agents = setupRandomAgents(rng, num_of_agents, accuracy, std)
-
-    for round in 1:num_of_steps
-        application(rng, registry, history, agents, binaryTokenVote)
-        challenge(rng, registry, agents, 10, binaryTokenVote, onlyChallengerRewardRedistribution)
-    end
-
-    [b(registry, agents) for b in benchmarks]
-end
-
-function simWithProRataTokens(rng, num_of_steps, num_of_agents, accuracy, std, benchmarks)
-    registry = []
-    history = []
-    agents = setupRandomAgents(rng, num_of_agents, accuracy, std)
-
-    for round in 1:num_of_steps
-        application(rng, registry, history, agents, proRataTokenVote)
-        challenge(rng, registry, agents, 10, proRataTokenVote, onlyChallengerRewardRedistribution)
-    end
-
-    [b(registry, agents) for b in benchmarks]
-end
+# function simFixedAgentsWithChallenge(rng, num_of_steps, num_of_agents, accuracy, benchmarks)
+#     registry = []
+#     history = []
+#     agents = setupAgentsWithFixedAccuracy(num_of_agents, accuracy)
+#
+#     for round in 1:num_of_steps
+#         application(rng, registry, history, agents, simpleVote)
+#         challenge(rng, registry, agents, 0, simpleVote, noneRedistribution)
+#     end
+#
+#     [b(registry, agents) for b in benchmarks]
+# end
+#
+#
+# function simDiversifiedAgentsWithChallenge(rng, num_of_steps, num_of_agents, accuracy, std, benchmarks)
+#     registry = []
+#     history = []
+#     agents = setupRandomAgents(num_of_agents, accuracy, std)
+#
+#     for round in 1:num_of_steps
+#         application(rng, registry, history, agents, simpleVote)
+#         challenge(rng, registry, agents, 0, simpleVote, noneRedistribution)
+#     end
+#
+#     [b(registry, agents) for b in benchmarks]
+# end
+#
+#
+# function simWithBinTokens(rng, num_of_steps, num_of_agents, accuracy, std, benchmarks)
+#     registry = []
+#     history = []
+#     agents = setupRandomAgents(num_of_agents, accuracy, std)
+#
+#     for round in 1:num_of_steps
+#         application(rng, registry, history, agents, binaryTokenVote)
+#         challenge(rng, registry, agents, 10, binaryTokenVote, onlyChallengerRewardRedistribution)
+#     end
+#
+#     [b(registry, agents) for b in benchmarks]
+# end
+#
+#
+# function simWithTokensMixed(rng, num_of_steps, lowAgents, highAgents, benchmarks)
+#     registry = []
+#     history = []
+#     agents = setupMixedAgents(lowAgents, highAgents)
+#
+#     for round in 1:num_of_steps
+#         application(rng, registry, history, agents, proRataTokenVote)
+#         challenge(rng, registry, agents, 10, proRataTokenVote, onlyChallengerRewardRedistribution)
+#     end
+#
+#     [b(registry, agents) for b in benchmarks]
+# end
+#
+# function simWithProRataTokens(rng, num_of_steps, num_of_agents, accuracy, std, benchmarks)
+#     registry = []
+#     history = []
+#     agents = setupRandomAgents(num_of_agents, accuracy, std)
+#
+#     for round in 1:num_of_steps
+#         application(rng, registry, history, agents, proRataTokenVote)
+#         challenge(rng, registry, agents, 10, proRataTokenVote, onlyChallengerRewardRedistribution)
+#     end
+#
+#     [b(registry, agents) for b in benchmarks]
+# end
 
 
 

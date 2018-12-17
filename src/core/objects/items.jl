@@ -1,5 +1,5 @@
 function getRegistryCandidate()
-    rand(TruncatedNormal(50, 29, 0, 100))
+    rand(TruncatedNormal(50, 20, 0, 100))
 end
 
 function registryMean(registry)
