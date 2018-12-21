@@ -6,7 +6,7 @@ module TcrCore
 ##
 ##############################################################################
 
-using Distributions, HypothesisTests
+using Distributions, HypothesisTests, StatsBase
 
 ##############################################################################
 ##

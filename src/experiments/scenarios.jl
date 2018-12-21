@@ -55,48 +55,66 @@ function compareEfficiency()
     end
 end
 
-function manipulatingNoAgents(rng)
+"""
+Accuracy is fixed to 50, Number of steps to 1000
+"""
+function manipulatingNoAgents()
     for noAgents in 10:10:200
-        noToken = [simDiversifiedAgentsWithChallenge(rng, 1000, noAgents, 50, 20, [benchmarkRegistryMean])[1] for i in 1:10]
-        token = [simWithProRataTokens(rng, 1000, noAgents, 50, 20, [benchmarkRegistryMean])[1] for i in 1:10]
+        noToken = [simChallenge(1000, setupRandomAgents(noAgents, 50, 20), [benchmarkRegistryMean])[1] for i in 1:10]
+        token = [simToken(1000, setupRandomAgents(noAgents, 50, 20), [benchmarkRegistryMean])[1] for i in 1:10]
         boost = mean(token) - mean(noToken)
-        println("$noAgents, $boost")
+        test = pvalue(UnequalVarianceTTest(token, noToken))
+        significant = test < 0.05
+        println("$noAgents, $boost, $test, $significant")
     end
 end
 
-function manipulatingNoSteps(rng)
+"""
+Accuracy is fixed to 50, Number of agents to 100
+"""
+function manipulatingNoSteps()
     for noSteps in 100:100:2000
-        noToken = [simDiversifiedAgentsWithChallenge(rng, noSteps, 100, 50, 20, [benchmarkRegistryMean])[1] for i in 1:10]
-        token = [simWithProRataTokens(rng, noSteps, 100, 50, 20, [benchmarkRegistryMean])[1] for i in 1:10]
+        noToken = [simChallenge(noSteps, setupRandomAgents(100, 50, 20), [benchmarkRegistryMean])[1] for i in 1:10]
+        token = [simToken(noSteps, setupRandomAgents(100, 50, 20), [benchmarkRegistryMean])[1] for i in 1:10]
         boost = mean(token) - mean(noToken)
-        println("$noSteps, $boost")
+        test = pvalue(UnequalVarianceTTest(token, noToken))
+        significant = test < 0.05
+        println("$noSteps, $boost, $test, $significant")
     end
 end
 
-function efficiencyArea(rng)
+function efficiencyArea()
     for noAgents in 10:10:200
         for noSteps in 100:100:2000
-            noToken = [simDiversifiedAgentsWithChallenge(rng, noSteps, noAgents, 50, 20, [benchmarkRegistryMean])[1] for i in 1:10]
-            token = [simWithProRataTokens(rng, noSteps, noAgents, 50, 20, [benchmarkRegistryMean])[1] for i in 1:10]
+            noToken = [simChallenge(noSteps, setupRandomAgents(noAgents, 50, 20), [benchmarkRegistryMean])[1] for i in 1:10]
+            token = [simToken(noSteps, setupRandomAgents(noAgents, 50, 20), [benchmarkRegistryMean])[1] for i in 1:10]
             boost = mean(token) - mean(noToken)
             println("$noSteps, $noAgents, $boost")
         end
     end
 end
 
-function accuracyAndBalanceCorrelation(rng)
-    for acc in 0:10:100
-        correlation = mean([simWithProRataTokens(rng, 1000, 50, acc, 20, [benchmarkAccuracyBalanceCorrelation]) for i in 1:10])[1]
-        println("$acc, $correlation")
+function accuracyAndBalanceCorrelation()
+    for acc in 0:5:100
+        results = mean([simToken(1500, setupRandomAgents(100, acc, 20), [benchmarkWeightedAccuracyBoost, benchmarkAccuracyBoost, benchmarkAccuracyBalanceCorrelation]) for i in 1:10])
+        weighted = results[1]
+        binary = results[2]
+        correlation = results[3]
+        println("$acc, $weighted, $binary, $correlation")
     end
 end
 
-# function tokenEfficiencyWindow()
-#     srand(1234)
-#     for acc in 0:10:100
-#         noToken = mean([simToken(1000, setupRandomAgents(100, acc, 20), [benchmarkRegistryMean]) for i in 1:10])[1]
-#         token = mean([simToken(1000, setupRandomAgents(100, acc, 20), [benchmarkRegistryMean]) for i in 1:10])[1]
-#     end
+function curationProcess()
+    for noSteps in 50:50:2000
+        results = mean([simToken(noSteps, setupMixedAgents(80, 0, 20, 100), [benchmarkWeightedAccuracyBoost, benchmarkAccuracyBalanceCorrelation, benchmarkRegistryMean]) for i in 1:30])
+        boost = results[1]
+        correlation = results[2]
+        quality = results[3]
+        println("$noSteps, $correlation, $quality")
+    end
+end
 
 
-compareEfficiency()
+
+
+curationProcess()

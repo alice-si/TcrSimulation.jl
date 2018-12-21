@@ -30,7 +30,7 @@ function benchmarkAccuracyBoost(registry, agents)
         end
     end
     effective = mean(eAcc)
-    normal = Benchmarks.meanAccuracy(registry, agents)
+    normal = meanAccuracy(registry, agents)
     boost = effective-normal
 end
 
@@ -38,7 +38,7 @@ function activeAgents(registry, agents)
     length(filter(a -> a.balance > 0, agents))
 end
 
-function weightedAccuracyBoost(registry, agents)
+function benchmarkWeightedAccuracyBoost(registry, agents)
     count = 0
     eAcc = 0;
     for agent in agents
@@ -48,7 +48,7 @@ function weightedAccuracyBoost(registry, agents)
         end
     end
     effective = eAcc/count
-    normal = Benchmarks.meanAccuracy(registry, agents)
+    normal = meanAccuracy(registry, agents)
     boost = effective-normal
 end
 
