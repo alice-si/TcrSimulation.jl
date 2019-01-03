@@ -11,18 +11,52 @@ In the short term, token holders may get an instant reward for rejecting low qua
 
 In the long term, a well curated list is expected to gain popularity and increase the number of  applicants willing to be listed. Higher demand for tokens which are necessary to cover the deposit cost will pressure on the price of tokens which are available to be traded on the open market. Therefore, token holders who actively performed the curation process will be rewarded in the increased valuation of their tokens. 
 
-Due to the simplicity of the basic mechanism it's often classified as one of the [crypto-economic primitives](https://medium.com/unframework/mimicables-decentralized-interfaces-introduction-new-crypto-primitive-c8af14910e5d) that could be used as a building block in other blockchain protocols. TODO: List use cases
+Due to the simplicity of the basic mechanism it's often classified as one of the [crypto-economic primitives](https://medium.com/unframework/mimicables-decentralized-interfaces-introduction-new-crypto-primitive-c8af14910e5d) that could be used as a building block in other blockchain protocols. There are few companies, among the others, that are already implementing the TCR protocols: [MetaX](https://www.metax.io) (advertaising), [District0x](https://district0x.io) (virtual marketplaces), [MedCredits](https://medcredits.io) (medical professionals registry), [Ocean Protocol](https://oceanprotocol.com) (data sets curation), [Messari](https://messari.io) (crypto-assets investments).
 
+## Simulations
 
-## Benefits of simulations
+Although TCR gained a lot of attention and there are many startups trying to implement this approach the effectiveness of the core mechanism haven’t been properly tested. It is unknown which assumptions about the token holder incentives are crucial for the algorithm to work as expected. The TCR model contains many variables, and even the author of the original idea, confirms that *Parameterization of registries is not considered well-solved at this time.* Moreover, there are more and more variations of the TCR approach but there is no framework to compare them and indicate which direction of further development may be most promising. 
 
+The final answer to the problems described above will be known only after such a system is fully implemented and deployed to the mass audience which may take several years of development and consume extensive investments. We want to propose a lightweight approach to test the TCR model which can bring approximate answers which is based on computer simulations and is cheaper and faster to execute. 
 
-
+This project uses [Agent-based computational economics (ACE)](https://en.wikipedia.org/wiki/Agent-based_computational_economics) framework, which it’s a relatively new research paradigm aiming to study economic problems as a dynamic model of interacting autonomous agents. Such phenomena could be studied with the help of software components. Using the distributed systems and parallel processing to implement this sort of models often classified a Multi Agent Simulation approach.
 
 ## Architecture
 
+The core building blocks of the simulation are **items** which could populate the registry, **agents**, who perform the curation according to the rules defining their behvaiour called **actions**.
+
+The basic building blocks are combined in higher order objects called **simulations** which encode the algorithm for a certain TCR model. There is also a set of analytical functions, that could be attached to a simulation, in order to provide insgights called **benchmarks**.
+
+
 
 ## Running simulations
+
+There is a code implementing of the the experiments: 
+
+```
+function compareEfficiency()
+  for acc in 0:5:100
+    noToken = [simChallenge(1000, setupRandomAgents(100, acc, 20), [benchmarkRegistryMean])[1] for i in 1:100]
+    token = [simToken(1000, setupRandomAgents(100, acc, 20), [benchmarkRegistryMean])[1] for i in 1:100]
+    boost = mean(token) - mean(noToken)
+    test = pvalue(UnequalVarianceTTest(token, noToken))
+    significant = test < 0.05
+    println("$acc, $boost, $test, $significant")
+  end
+end
+```
+
+It involves iteratively increasing the acc (agents accuracy) parameter and compare how does it affect the behaviour of two different simulation models: with and without a token. 
+
+Every simulation is executed 100 times. Let's take a closer look how it's defined: 
+
+```
+simToken(1000, setupRandomAgents(100, acc, 20), [benchmarkRegistryMean])
+```
+
+The function name (simToken) defines the model of TCR used (one involving token). The first parameter (1000) is the number of steps, during which agents evaluate the items, the second parameter contains the setup of the population of agents (100 agents chosen from a normal distribution with a defined accurany and factor 20 defining the diveristy) and the last parameter it's a set of statistics. 
+ 
+
 
 ## Findings
 
