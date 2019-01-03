@@ -55,10 +55,22 @@ simToken(1000, setupRandomAgents(100, acc, 20), [benchmarkRegistryMean])
 ```
 
 The function name (simToken) defines the model of TCR used (one involving token). The first parameter (1000) is the number of steps, during which agents evaluate the items, the second parameter contains the setup of the population of agents (100 agents chosen from a normal distribution with a defined accurany and factor 20 defining the diveristy) and the last parameter it's a set of statistics. 
- 
 
+The last part of the code defines the logic for computing custom statistics like the significance of the difference between two mens: 
 
-## Findings
+```
+test = pvalue(UnequalVarianceTTest(token, noToken))
+significant = test < 0.05
+```   
+
+and the final line is just printing the result to the standard output in the desired format for further analysis or visualisation: 
+
+```
+println("$acc, $boost, $test, $significant")
+```
+
+As the framework is still under the development we wanted to mantain a right balance between encoding common features in predefined functions and allowing users to define their own logic in the most flexible way.
+
 
 ## Contribute
 This project is still a work in progress, so if feel free to join and give us a hand building this tool.
