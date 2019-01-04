@@ -1,5 +1,10 @@
 
 
+"""
+The basic algorithm where on every step of the iteration
+there is a new item applying to the registry that is being
+collectively judged by agents during the majority voting
+"""
 function simSimple(num_of_steps, agents, benchmarks)
     registry = []
     history = []
@@ -11,6 +16,11 @@ function simSimple(num_of_steps, agents, benchmarks)
     [b(registry, agents) for b in benchmarks]
 end
 
+
+"""
+Apart from voting on a new appliations, a random agent challenges
+the item that he consider the worst in the registry
+"""
 function simChallenge(num_of_steps, agents, benchmarks)
     registry = []
     history = []
@@ -23,6 +33,14 @@ function simChallenge(num_of_steps, agents, benchmarks)
     [b(registry, agents) for b in benchmarks]
 end
 
+
+"""
+This mode introduces a token as a mean to reward well-performing agents.
+During the challenge phase an agent needs to stake some tokens and depending
+on the results he can either earn more tokens or loose the initial deposit.
+The exact logic for token redistribution is encoded as a parameter passed
+to the challenge method.
+"""
 function simToken(num_of_steps, agents, benchmarks)
     registry = []
     history = []
@@ -34,120 +52,3 @@ function simToken(num_of_steps, agents, benchmarks)
 
     [b(registry, agents) for b in benchmarks]
 end
-
-
-# function simFixedAgentsWithChallenge(rng, num_of_steps, num_of_agents, accuracy, benchmarks)
-#     registry = []
-#     history = []
-#     agents = setupAgentsWithFixedAccuracy(num_of_agents, accuracy)
-#
-#     for round in 1:num_of_steps
-#         application(rng, registry, history, agents, simpleVote)
-#         challenge(rng, registry, agents, 0, simpleVote, noneRedistribution)
-#     end
-#
-#     [b(registry, agents) for b in benchmarks]
-# end
-#
-#
-# function simDiversifiedAgentsWithChallenge(rng, num_of_steps, num_of_agents, accuracy, std, benchmarks)
-#     registry = []
-#     history = []
-#     agents = setupRandomAgents(num_of_agents, accuracy, std)
-#
-#     for round in 1:num_of_steps
-#         application(rng, registry, history, agents, simpleVote)
-#         challenge(rng, registry, agents, 0, simpleVote, noneRedistribution)
-#     end
-#
-#     [b(registry, agents) for b in benchmarks]
-# end
-#
-#
-# function simWithBinTokens(rng, num_of_steps, num_of_agents, accuracy, std, benchmarks)
-#     registry = []
-#     history = []
-#     agents = setupRandomAgents(num_of_agents, accuracy, std)
-#
-#     for round in 1:num_of_steps
-#         application(rng, registry, history, agents, binaryTokenVote)
-#         challenge(rng, registry, agents, 10, binaryTokenVote, onlyChallengerRewardRedistribution)
-#     end
-#
-#     [b(registry, agents) for b in benchmarks]
-# end
-#
-#
-# function simWithTokensMixed(rng, num_of_steps, lowAgents, highAgents, benchmarks)
-#     registry = []
-#     history = []
-#     agents = setupMixedAgents(lowAgents, highAgents)
-#
-#     for round in 1:num_of_steps
-#         application(rng, registry, history, agents, proRataTokenVote)
-#         challenge(rng, registry, agents, 10, proRataTokenVote, onlyChallengerRewardRedistribution)
-#     end
-#
-#     [b(registry, agents) for b in benchmarks]
-# end
-#
-# function simWithProRataTokens(rng, num_of_steps, num_of_agents, accuracy, std, benchmarks)
-#     registry = []
-#     history = []
-#     agents = setupRandomAgents(num_of_agents, accuracy, std)
-#
-#     for round in 1:num_of_steps
-#         application(rng, registry, history, agents, proRataTokenVote)
-#         challenge(rng, registry, agents, 10, proRataTokenVote, onlyChallengerRewardRedistribution)
-#     end
-#
-#     [b(registry, agents) for b in benchmarks]
-# end
-
-
-
-#
-#
-#
-# function binaryTokenChallenge(num_of_steps, num_of_agents, accuracy, diversity, benchmarks)
-#     registry = []
-#     history = []
-#     agents = Agents.setupRandomAgents(num_of_agents, accuracy, diversity)
-#
-#     for round in 1:num_of_steps
-#         Actions.application(registry, history, agents, Vote.tokenHoldersVote, 10)
-#         Actions.challenge(registry, filter(a -> a.balance > 0, agents), 10, Vote.tokenHoldersVote, Redistribute.onlyChallengerReward)
-#     end
-#
-#     [b(registry, agents) for b in benchmarks]
-# end
-#
-#
-# function proRataTokenChallenge(num_of_steps, num_of_agents, accuracy, diversity, benchmarks)
-#         registry = []
-#         history = []
-#         agents = Agents.setupRandomAgents(num_of_agents, accuracy, diversity)
-#
-#         for round in 1:num_of_steps
-#             Actions.application(registry, history, agents, Vote.tokenProRataVote)
-#             Actions.challenge(registry, filter(a -> a.balance > 0, agents), 10, Vote.tokenProRataVote, Redistribute.onlyChallengerReward)
-#
-#             println("------------------")
-#             for ag in agents
-#                 acc = ag.accuracy
-#                 bal = ag.balance
-#                 println("$acc $bal")
-#             end
-#
-#         end
-#
-#
-#
-#         [b(registry, agents) for b in benchmarks]
-# end
-
-
-# d  = binaryTokenChallenge(1000, 50, 60, 10, [Benchmarks.registryMean])
-# println(d)
-
-#GPLOT2 - do wykresów
