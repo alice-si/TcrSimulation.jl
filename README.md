@@ -25,13 +25,21 @@ This project uses [Agent-based computational economics (ACE)](https://en.wikiped
 
 The core building blocks of the simulation are **items** which could populate the registry, **agents**, who perform the curation according to the rules defining their behvaiour called **actions**.
 
+
+
 The basic building blocks are combined in higher order objects called **simulations** which encode the algorithm for a certain TCR model. There is also a set of analytical functions, that could be attached to a simulation, in order to provide insgights called **benchmarks**.
 
+Simulation modes that are defined in [simulations.jl](/src/simulations/simulations.jl) :
 
+Function | Simulation mode
+--- | --- 
+*simSimple* | The basic algorithm where on every step of the iteration there is a new item applying to the registry that is being collectively judged by agents during the majority voting
+*simChallenge* | Apart from voting on a new appliations, a random agent challenges the item that he consider the worst in the registry
+*simToken* | This mode introduces a token as a mean to reward well-performing agents. During the challenge phase an agent needs to stake some tokens and depending on the results he can either earn more tokens or loose the initial deposit. The exact logic for token redistribution is encoded as a parameter passed to the challenge method. 
 
 ## Running simulations
 
-There is a code implementing of the the experiments: 
+There is a sample code showning how to implement a set of simulations: 
 
 ```
 function compareEfficiency()
