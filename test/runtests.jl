@@ -1,4 +1,4 @@
-using TcrCore, TcrExp, FactCheck
+using TcrCore, FactCheck
 
 include("test_agents.jl")
 include("test_vote.jl")
