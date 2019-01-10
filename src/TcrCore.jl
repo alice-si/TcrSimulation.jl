@@ -63,8 +63,8 @@ export
 ##
 ##############################################################################
 
-include("objects/items.jl")
-include("objects/agents.jl")
+include("environment/items.jl")
+include("environment/agents.jl")
 include("actions/vote.jl")
 include("actions/select-agent.jl")
 include("actions/redistribute.jl")
