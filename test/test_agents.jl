@@ -29,22 +29,25 @@ facts("Testing creation of high diversified accuracy agents pool") do
 end
 
 facts("Testing candidate evaluation by a perfect agent") do
+    srand(1234)
     agent = Agent(100)
-    @fact TcrCore.evaluateCandidateByAgent(rng, 30, agent) --> 30
-    @fact TcrCore.evaluateCandidateByAgent(rng, 50, agent) --> 50
-    @fact TcrCore.evaluateCandidateByAgent(rng, 80, agent) --> 80
+    @fact TcrCore.evaluateCandidateByAgent(30, agent) --> 30
+    @fact TcrCore.evaluateCandidateByAgent(50, agent) --> 50
+    @fact TcrCore.evaluateCandidateByAgent(80, agent) --> 80
 end
 
 facts("Testing candidate evaluation by a high accuracy agent") do
+    srand(1234)
     agent = Agent(80)
-    @fact TcrCore.evaluateCandidateByAgent(MersenneTwister(1234), 30, agent) --> 38.67347201951246
-    @fact TcrCore.evaluateCandidateByAgent(MersenneTwister(1234), 50, agent) --> 58.67347201951246
-    @fact TcrCore.evaluateCandidateByAgent(MersenneTwister(1234), 80, agent) --> 88.67347201951246
+    @fact TcrCore.evaluateCandidateByAgent(30, agent) --> 35.78231467967497
+    @fact TcrCore.evaluateCandidateByAgent(50, agent) --> 56.011625439045446
+    @fact TcrCore.evaluateCandidateByAgent(80, agent) --> 83.29652502336155
 end
-#
+
 facts("Testing candidate evaluation by a medium accuracy agent") do
+    srand(1234)
     agent = Agent(50)
-    @fact TcrCore.evaluateCandidateByAgent(rng, 30, agent) --> 76.31957394313864
-    @fact TcrCore.evaluateCandidateByAgent(rng, 50, agent) --> 70.694085795423
-    @fact TcrCore.evaluateCandidateByAgent(rng, 80, agent) --> 82.75240315805439
+    @fact TcrCore.evaluateCandidateByAgent(30, agent) --> 44.45578669918743
+    @fact TcrCore.evaluateCandidateByAgent(50, agent) --> 65.02906359761361
+    @fact TcrCore.evaluateCandidateByAgent(80, agent) --> 88.2413125584039
 end
