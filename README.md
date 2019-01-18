@@ -79,6 +79,66 @@ println("$acc, $boost, $test, $significant")
 
 As the framework is still under the development we wanted to mantain a right balance between encoding common features in predefined functions and allowing users to define their own logic in the most flexible way.
 
+## Results
+
+### Effects of agents diversification
+
+```
+function tokensAndDiversificationsEffects()
+    srand(1234)
+    divEffects = []
+    tokenEffect = []
+    tokenDivEffects = []
+    for acc in 0:5:100
+        noTokenFixed = mean([simChallenge(1000, setupAgentsWithFixedAccuracy(100, acc), [benchmarkRegistryMean]) for i in 1:30])[1]
+        noTokenDiv = mean([simChallenge(1000, setupRandomAgents(100, acc, 20), [benchmarkRegistryMean]) for i in 1:30])[1]
+        tokenFixed = mean([simToken(1000, setupAgentsWithFixedAccuracy(100, acc), [benchmarkRegistryMean]) for i in 1:30])[1]
+        tokenDiv = mean([simToken(1000, setupRandomAgents(100, acc, 20), [benchmarkRegistryMean]) for i in 1:30])[1]
+
+        divEffect = mean([tokenDiv - tokenFixed, noTokenDiv - noTokenFixed])
+        tokenEffect = mean([tokenDiv - noTokenDiv, tokenFixed - noTokenFixed])
+        tokenDivEffect = tokenDiv - noTokenFixed
+        println("$acc, $divEffect, $tokenEffect, $tokenDivEffect")
+    end
+end
+```
+
+![chart_tokens_diversifications](https://s3.eu-west-2.amazonaws.com/alice-res/tcr/tcr_chart_tokens_diversification.png)
+
+![tcr_chart_cumulative](https://s3.eu-west-2.amazonaws.com/alice-res/tcr/tcr_chart_cumulative.png)
+
+### Gain from tokens at different accuracy
+
+```
+function compareEfficiencyByAccuracy()
+    for acc in 0:5:100
+        noToken = [simChallenge(1000, setupAgentsWithFixedAccuracy(100, acc), [benchmarkRegistryMean])[1] for i in 1:30]
+        token = [simToken(1000, setupRandomAgents(100, acc, 20), [benchmarkRegistryMean])[1] for i in 1:30]
+        boost = mean(token) - mean(noToken)
+        test = pvalue(UnequalVarianceTTest(token, noToken))
+        significant = test < 0.05
+        println("$acc, $boost, $test, $significant")
+    end
+end
+```
+
+![tcr_chart_efficiency_bonus](https://s3.eu-west-2.amazonaws.com/alice-res/tcr/tcr_chart_efficiency_bonus.png)
+
+### Inner circle of experts
+
+```
+function expertsInnerCirleSize()
+    for expertCount in 1:1:100
+        controlLow= mean([simChallenge(1000, setupAgentsWithFixedAccuracy(100, 20), [benchmarkRegistryMean])[1] for i in 1:20])
+        expertTokens = mean([simToken(1000, setupMixedAgents(100-expertCount, 20, expertCount, 100), [benchmarkRegistryMean])[1] for i in 1:20])
+        expertNoTokens = mean([simChallenge(1000, setupMixedAgents(100-expertCount, 20, expertCount, 100), [benchmarkRegistryMean])[1] for i in 1:20])
+        controlHigh = mean([simChallenge(1000, setupAgentsWithFixedAccuracy(100, 100), [benchmarkRegistryMean])[1] for i in 1:20])
+        println("$expertCount, $controlLow, $expertTokens, $expertNoTokens, $controlHigh")
+    end
+end
+```
+
+![tcr_chart_experts_count](https://s3.eu-west-2.amazonaws.com/alice-res/tcr/tcr_chart_experts_count.png)
 
 ## Contribute
 This project is still a work in progress, so if feel free to join and give us a hand building this tool.
