@@ -86,7 +86,7 @@ As the framework is still under the development we wanted to mantain a right bal
 Let's first comapre the efficiency of different simulation modes: simple voting on applicatnts, possibility of challenging existing applicants, necessity to stake tokens for a challenge. All of the modes will be tested at different scenarios where we will manipulate the accuracy of agents. In every scenario all of the agents will have the same fixed accuracy. The scenario will be run over 1000 steps and it will be repeated 20 times to reduce the randomness. This setup could be implemented in a few lines of code:
 
 ```
-ffor acc in 0:5:100
+for acc in 0:5:100
         applicationOnly = mean([simSimple(1000, setupAgentsWithFixedAccuracy(100, acc), [benchmarkRegistryMean]) for i in 1:20])[1]
         challenge = mean([simChallenge(1000, setupAgentsWithFixedAccuracy(100, acc), [benchmarkRegistryMean]) for i in 1:20])[1]
         token = mean([simToken(1000, setupAgentsWithFixedAccuracy(100, acc), [benchmarkRegistryMean]) for i in 1:20])[1]
