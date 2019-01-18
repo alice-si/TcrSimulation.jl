@@ -81,14 +81,30 @@ As the framework is still under the development we wanted to mantain a right bal
 
 ## Results
 
-### Effects of agents diversification
+### Compare efficiency of simulation modes
+
+Let's first comapre the efficiency of different simulation modes: simple voting on applicatnts, possibility of challenging existing applicants, necessity to stake tokens for a challenge. All of the modes will be tested at different scenarios where we will manipulate the accuracy of agents. In every scenario all of the agents will have the same fixed accuracy. The scenario will be run over 1000 steps and it will be repeated 20 times to reduce the randomness. This setup could be implemented in a few lines of code:
 
 ```
-function tokensAndDiversificationsEffects()
-    srand(1234)
-    divEffects = []
-    tokenEffect = []
-    tokenDivEffects = []
+ffor acc in 0:5:100
+        applicationOnly = mean([simSimple(1000, setupAgentsWithFixedAccuracy(100, acc), [benchmarkRegistryMean]) for i in 1:20])[1]
+        challenge = mean([simChallenge(1000, setupAgentsWithFixedAccuracy(100, acc), [benchmarkRegistryMean]) for i in 1:20])[1]
+        token = mean([simToken(1000, setupAgentsWithFixedAccuracy(100, acc), [benchmarkRegistryMean]) for i in 1:20])[1]
+        println("$acc, $applicationOnly, $challenge, $token")
+    end
+```
+Let's take a look at the results:
+
+![tcr_chart_simulation_modes](https://s3.eu-west-2.amazonaws.com/alice-res/tcr/tcr_chart_simulation_modes.png)
+
+We may observe that in all of the modes higher accuracy of curators brings better registry quality. Adding ability to challenge existing elements improves the registry quality. There is also an improvement caused by introducing the need of staking tokens although this effect is weaker when the accuracy of curators is high.  
+
+
+### Effects of agents diversification
+
+In the previous experiment we created an environment when all of the curators have got an equal accuracy of judgement. Let's explore the scenario where agents may differ in the quality of their assesment. We will also manipulate the accuracy while iterating the scenarios but this time it will only mean an average accuracy which will be dispersed following the normal distribution with the standard deviation of 20. We're going to compare the effects of diversifying agents and the effect of requiring agents to stake tokens. This experiment could be implemented as follows:
+
+```
     for acc in 0:5:100
         noTokenFixed = mean([simChallenge(1000, setupAgentsWithFixedAccuracy(100, acc), [benchmarkRegistryMean]) for i in 1:30])[1]
         noTokenDiv = mean([simChallenge(1000, setupRandomAgents(100, acc, 20), [benchmarkRegistryMean]) for i in 1:30])[1]
@@ -100,12 +116,19 @@ function tokensAndDiversificationsEffects()
         tokenDivEffect = tokenDiv - noTokenFixed
         println("$acc, $divEffect, $tokenEffect, $tokenDivEffect")
     end
-end
 ```
+
+Let's analyse the results:
 
 ![chart_tokens_diversifications](https://s3.eu-west-2.amazonaws.com/alice-res/tcr/tcr_chart_tokens_diversification.png)
 
+We may see that differsification helps to improve the quality of registry for modes with and without token staking. 
+
+For better visibility let's also look at difference between registry quality at the scenario with the biggest contrast.
+
 ![tcr_chart_cumulative](https://s3.eu-west-2.amazonaws.com/alice-res/tcr/tcr_chart_cumulative.png)
+
+
 
 ### Gain from tokens at different accuracy
 
