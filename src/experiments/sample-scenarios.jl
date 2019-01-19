@@ -4,7 +4,7 @@ function simSimpleWithDifferentAgents()
         fixed = mean([simSimple(1000, setupAgentsWithFixedAccuracy(100, acc), [benchmarkRegistryMean]) for i in 1:10])[1]
         div10 = mean([simSimple(1000, setupRandomAgents(100, acc, 10), [benchmarkRegistryMean]) for i in 1:10])[1]
         div20 = mean([simSimple(1000, setupRandomAgents(100, acc, 20), [benchmarkRegistryMean]) for i in 1:10])[1]
-        mixed = mean([simSimple(1000, setupMixedAgents(100-acc, 0, acc, 100), [benchmarkRegistryMean]) for i in 1:10])[1]
+        mixed = mean([simSimple(1000, setupMixedAgents(90, acc, 10, 100-acc), [benchmarkRegistryMean]) for i in 1:10])[1]
         println("$acc, $fixed, $div10, $div20, $mixed")
     end
 end
@@ -27,7 +27,7 @@ function simTokenWithDifferentAgents()
         fixed = mean([simToken(1000, setupAgentsWithFixedAccuracy(100, acc), [benchmarkRegistryMean]) for i in 1:10])[1]
         div10 = mean([simToken(1000, setupRandomAgents(100, acc, 10), [benchmarkRegistryMean]) for i in 1:10])[1]
         div20 = mean([simToken(1000, setupRandomAgents(100, acc, 20), [benchmarkRegistryMean]) for i in 1:10])[1]
-        mixed = mean([simToken(1000, setupMixedAgents(100-acc, 0, acc, 100), [benchmarkRegistryMean]) for i in 1:10])[1]
+        mixed = mean([simToken(1000, setupMixedAgents(100-acc, 10, acc, 90), [benchmarkRegistryMean]) for i in 1:10])[1]
 
         println("$acc, $fixed, $div10, $div20, $mixed")
     end
@@ -41,17 +41,6 @@ function compareRegistryQualityOnDifferentSetups()
         token = mean([simToken(1000, setupRandomAgents(100, acc, 20), [benchmarkRegistryMean]) for i in 1:10])[1]
 
         println("$acc, $noChallenge, $challenge, $divAgents, $token")
-    end
-end
-
-function compareEfficiency()
-    for acc in 0:5:100
-        noToken = [simChallenge(1000, setupRandomAgents(100, acc, 20), [benchmarkRegistryMean])[1] for i in 1:10]
-        token = [simToken(1000, setupRandomAgents(100, acc, 20), [benchmarkRegistryMean])[1] for i in 1:10]
-        boost = mean(token) - mean(noToken)
-        test = pvalue(UnequalVarianceTTest(token, noToken))
-        significant = test < 0.05
-        println("$acc, $boost, $test, $significant")
     end
 end
 
@@ -113,8 +102,3 @@ function curationProcess()
         println("$noSteps, $correlation, $quality")
     end
 end
-
-
-
-
-curationProcess()

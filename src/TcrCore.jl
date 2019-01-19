@@ -39,20 +39,14 @@ export
 
     #Simulations:
     simSimple,
-    simChallenge
+    simChallenge,
+    simToken
 
 
-    #Experiments
-    # sim,
-    # sim2
+    #Research
+    # tokensAndDiversifications,
+    # tokensAndDiversificationsEffects
 
-    #
-    # simFixedAgentsNoChallenge,
-    # simFixedAgentsWithChallenge,
-    # simDiversifiedAgentsWithChallenge,
-    # simWithBinTokens,
-    # simWithProRataTokens,
-    # simWithTokensMixed
 
 
 
@@ -71,6 +65,7 @@ include("actions/redistribute.jl")
 include("actions/composite-actions.jl")
 include("simulations/simulations.jl")
 include("experiments/benchmarks.jl")
-include("experiments/scenarios.jl")
+include("experiments/sample-scenarios.jl")
+include("experiments/research.jl")
 
 end # module TcrSimulations
