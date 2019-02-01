@@ -34,6 +34,7 @@ export
     selectRandomAgentWithMinBalance,
     noneRedistribution,
     onlyChallengerRewardRedistribution,
+    fullRedistribution,
     challenge,
     application,
 
