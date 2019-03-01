@@ -41,11 +41,11 @@ export
     #Simulations:
     simSimple,
     simChallenge,
-    simToken
+    simToken,
 
 
-    #Research
-    # tokensAndDiversifications,
+    #Benchmarks
+    benchmarkRegistryMean
     # tokensAndDiversificationsEffects
 
 
@@ -66,7 +66,5 @@ include("actions/redistribute.jl")
 include("actions/composite-actions.jl")
 include("simulations/simulations.jl")
 include("experiments/benchmarks.jl")
-include("experiments/sample-scenarios.jl")
-include("experiments/research.jl")
 
 end # module TcrSimulations

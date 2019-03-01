@@ -1,3 +1,5 @@
+include("../src/TcrCore.jl")
+
 using TcrCore, FactCheck
 
 include("test_agents.jl")
