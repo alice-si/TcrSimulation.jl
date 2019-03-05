@@ -1,3 +1,4 @@
+include("../src/TcrCore.jl")
 using TcrCore, HypothesisTests
 
 function differentMechanisms()
@@ -43,8 +44,8 @@ end
 
 function compareEfficiencyByAccuracy()
     for acc in 0:5:100
-        noToken = [simChallenge(1000, setupAgentsWithFixedAccuracy(100, acc), [benchmarkRegistryMean])[1] for i in 1:30]
-        token = [simToken(1000, setupRandomAgents(100, acc, 20), noneRedistribution, [benchmarkRegistryMean])[1] for i in 1:30]
+        noToken = [simChallenge(1000, setupRandomAgents(100, acc, 20), [benchmarkRegistryMean])[1] for i in 1:10]
+        token = [simToken(1000, setupRandomAgents(100, acc, 20), noneRedistribution, [benchmarkRegistryMean])[1] for i in 1:10]
         boost = mean(token) - mean(noToken)
         test = pvalue(UnequalVarianceTTest(token, noToken))
         significant = test < 0.05
@@ -89,7 +90,7 @@ function compareRedistribution()
 end
 
 function runScenarios()
-    efficiencyArea()
+    compareRedistribution()
 end
 
 runScenarios()
