@@ -1,4 +1,5 @@
-using TcrSimulation, HypothesisTests
+
+using TcrSimulation, HypothesisTests, Statistics
 
 function differentMechanisms()
     Random.seed!(1234)
@@ -73,8 +74,8 @@ function expertsInnerCirleSize()
     end
 end
 
-function compareRedistribution()
-    for acc in 0:5:100
+function compareRedistribution(sweep_range::OrdinalRange)
+    for acc in sweep_range
         challengerOnly = [simToken(1000, setupRandomAgents(100, acc, 20), onlyChallengerRewardRedistribution, [benchmarkRegistryMean])[1] for i in 1:20]
         punishment = [simToken(1000, setupRandomAgents(100, acc, 20), punishmentRedistribution, [benchmarkRegistryMean])[1] for i in 1:20]
         reward = [simToken(1000, setupRandomAgents(100, acc, 20), rewardRedistribution, [benchmarkRegistryMean])[1] for i in 1:20]
@@ -89,7 +90,7 @@ function compareRedistribution()
 end
 
 function runScenarios()
-    compareRedistribution()
+    compareRedistribution(0:5:100)
 end
 
 runScenarios()

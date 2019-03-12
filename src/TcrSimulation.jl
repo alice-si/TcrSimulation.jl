@@ -6,7 +6,7 @@ module TcrSimulation
 ##
 ##############################################################################
 
-using Distributions, HypothesisTests, StatsBase, Random
+using Distributions, HypothesisTests, StatsBase, Random, Statistics
 
 ##############################################################################
 ##

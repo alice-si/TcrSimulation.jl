@@ -10,8 +10,8 @@ Otherwise, the challenger loses his deposit and item remains in the registry.
 function challenge(registry, agents, deposit, voteFunc, redistributionFunc)
     if (length(registry) >= 10)
         challenger = agents[rand(1:end)]
-        evaluations = evaluateCandidateByAgent.(registry, challenger)
-        challengedIndex = indmin(evaluations);
+        evaluations = evaluateCandidateByAgent.(registry, [challenger])
+        challengedIndex = argmin(evaluations);
         challengedValue = evaluations[challengedIndex]
 
         # if (min < mean(registry))
