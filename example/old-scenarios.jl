@@ -1,5 +1,5 @@
 function simSimpleWithDifferentAgents()
-    srand(1234)
+    Random.seed!(1234)
     for acc in 0:10:100
         fixed = mean([simSimple(1000, setupAgentsWithFixedAccuracy(100, acc), [benchmarkRegistryMean]) for i in 1:10])[1]
         div10 = mean([simSimple(1000, setupRandomAgents(100, acc, 10), [benchmarkRegistryMean]) for i in 1:10])[1]
@@ -10,7 +10,7 @@ function simSimpleWithDifferentAgents()
 end
 
 function simChallengeWithDifferentAgents()
-    srand(1234)
+    Random.seed!(1234)
     for acc in 0:10:100
         fixed = mean([simChallenge(1000, setupAgentsWithFixedAccuracy(100, acc), [benchmarkRegistryMean]) for i in 1:10])[1]
         div10 = mean([simChallenge(1000, setupRandomAgents(100, acc, 10), [benchmarkRegistryMean]) for i in 1:10])[1]
@@ -22,7 +22,7 @@ function simChallengeWithDifferentAgents()
 end
 
 function simTokenWithDifferentAgents()
-    srand(1234)
+    Random.seed!(1234)
     for acc in 0:10:100
         fixed = mean([simToken(1000, setupAgentsWithFixedAccuracy(100, acc), [benchmarkRegistryMean]) for i in 1:10])[1]
         div10 = mean([simToken(1000, setupRandomAgents(100, acc, 10), [benchmarkRegistryMean]) for i in 1:10])[1]

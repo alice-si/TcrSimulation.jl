@@ -1,8 +1,7 @@
-include("../src/TcrCore.jl")
-using TcrCore, HypothesisTests
+using TcrSimulation, HypothesisTests
 
 function differentMechanisms()
-    srand(1234)
+    Random.seed!(1234)
     for acc in 0:5:100
         applicationOnly = mean([simSimple(1000, setupAgentsWithFixedAccuracy(100, acc), [benchmarkRegistryMean]) for i in 1:20])[1]
         challenge = mean([simChallenge(1000, setupAgentsWithFixedAccuracy(100, acc), [benchmarkRegistryMean]) for i in 1:20])[1]
@@ -13,7 +12,7 @@ end
 
 
 function tokensAndDiversifications()
-    srand(1234)
+    Random.seed!(1234)
 
     for acc in 0:5:100
         noTokenFixed = mean([simChallenge(1000, setupAgentsWithFixedAccuracy(100, acc), [benchmarkRegistryMean]) for i in 1:30])[1]
@@ -25,7 +24,7 @@ function tokensAndDiversifications()
 end
 
 function tokensAndDiversificationsEffects()
-    srand(1234)
+    Random.seed!(1234)
     divEffects = []
     tokenEffect = []
     tokenDivEffects = []

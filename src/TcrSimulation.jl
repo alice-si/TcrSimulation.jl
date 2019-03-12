@@ -1,4 +1,4 @@
-module TcrCore
+module TcrSimulation
 
 ##############################################################################
 ##
@@ -6,7 +6,7 @@ module TcrCore
 ##
 ##############################################################################
 
-using Distributions, HypothesisTests, StatsBase
+using Distributions, HypothesisTests, StatsBase, Random
 
 ##############################################################################
 ##
