@@ -34,7 +34,7 @@ and call other users to vote if a item should be exluded from the registry.
 If the mojority of users agree with the challenger, he receives a bonus an an item is removed.
 Otherwise, the challenger loses his deposit and item remains in the registry.
 """
-function application(registry, history, agents, voteFunc)
+function application(registry::Vector{Float64}, history::Vector{Float64}, agents::Vector{Agent}, voteFunc)
     candidate = getRegistryCandidate()
     push!(history, candidate)
     # println("Candidate: $candidate")

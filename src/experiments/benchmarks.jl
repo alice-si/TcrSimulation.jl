@@ -1,7 +1,7 @@
 """
 Calculates the mean quality of the items in the given registry
 """
-function benchmarkRegistryMean(registry, agents)
+function benchmarkRegistryMean(registry, agents::Vector{Agent})
     mean(registry)
 end
 
@@ -25,22 +25,15 @@ end
 """
 Calculates the mean accurancy of a group of agents
 """
-function meanAccuracy(registry, agents)
-    accs = []
-    for agent in agents
-        push!(accs, agent.accuracy)
-    end
-    meanAccuracy = mean(accs)
-    return meanAccuracy
-end
+meanAccuracy(registry, agents::Vector{Agent}) = mean(getfield.(agents,:accuracy))
 
 
 """
 Calculates the number of agents possesing tokens thus being able to stake
 them to participate in challenges and votings
 """
-function activeAgents(registry, agents)
-    length(filter(a -> a.balance > 0, agents))
+function activeAgents(registry, agents::Vector{Agent})
+    length(filter(a -> a.balance > 0, agents::Vector{Agent}))
 end
 
 
@@ -48,17 +41,17 @@ end
 Calculates the difference in accurancy of agents who posses tokens and those
 who does not hold any tokens
 """
-function benchmarkAccuracyBoost(registry, agents)
-    eAcc = []
+function benchmarkAccuracyBoost(registry, agents::Vector{Agent})
+    eAcc = Float64[]
     count = 0
     for agent in agents
         if agent.balance > 0
             push!(eAcc, agent.accuracy)
-            count = count + 1
+            count += 1
         end
     end
     effective = mean(eAcc)
-    normal = meanAccuracy(registry, agents)
+    normal = meanAccuracy(registry, agents::Vector{Agent})
     boost = effective-normal
 end
 
@@ -67,17 +60,17 @@ end
 Calculates the difference in accurancy of agents weighted by the number of tokens
 they posses
 """
-function benchmarkWeightedAccuracyBoost(registry, agents)
-    count = 0
+function benchmarkWeightedAccuracyBoost(registry, agents::Vector{Agent})
+    countB = 0.0
     eAcc = 0;
     for agent in agents
         if agent.balance > 0
             eAcc += agent.balance * agent.accuracy
-            count += agent.balance
+            countB += agent.balance
         end
     end
-    effective = eAcc/count
-    normal = meanAccuracy(registry, agents)
+    effective = eAcc/countB
+    normal = meanAccuracy(registry, agents::Vector{Agent})
     boost = effective-normal
 end
 
@@ -85,18 +78,16 @@ end
 """
 Calculates the correlation between agents accuracy and balance
 """
-function benchmarkAccuracyBalanceCorrelation(registry, agents)
-    a = [agent.accuracy for agent in agents]
-    b = [agent.balance for agent in agents]
-    corspearman(a, b)
-end
+benchmarkAccuracyBalanceCorrelation(registry, agents::Vector{Agent}) =
+    corspearman(getfield.(agents,:accuracy), getfield.(agents,:balance))
+
 
 
 """
 Calculates the gini coefficient - how equally tokens are distributed among agents
 """
-function gini(registry, agents)
-    x = [agent.balance for agent in agents]
+function gini(registry, agents::Vector{Agent})
+    x = getfield.(agents,:balance)
     n = length(x)
     xx = sort(x)
     2*(sum(collect(1:n).*xx))/(n*sum(xx))-1

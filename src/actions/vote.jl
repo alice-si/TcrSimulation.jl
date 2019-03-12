@@ -5,8 +5,8 @@ The basic voting function when every agent's got an equal voting power
 and the candidate is being compared to the registry mean
 """
 function simpleVote(benchmark, candidate, agents)
-    rejectAgents = []
-    proAgents = []
+    rejectAgents = Agent[]
+    proAgents = Agent[]
     quorum = length(agents)
     for agent in agents
         push!(evaluateCandidateByAgent(candidate, agent) >= benchmark ? proAgents : rejectAgents, agent)
@@ -20,8 +20,8 @@ The voting function when every agent's got an equal voting power
 but only agents who hold some tokens are eligible to participate
 """
 function binaryTokenVote(benchmark, candidate, agents)
-    rejectAgents = []
-    proAgents = []
+    rejectAgents = Agent[]
+    proAgents = Agent[]
     quorum = 0
     for agent in agents
         if agent.balance > 0
@@ -33,7 +33,7 @@ function binaryTokenVote(benchmark, candidate, agents)
             quorum += 1
         end
     end
-    [length(proAgents) > quorum/2, proAgents, rejectAgents]
+    (length(proAgents) > quorum/2, proAgents, rejectAgents)
 end
 
 
@@ -42,8 +42,8 @@ The voting function when every agent's got a voting power
 proportional to the amount of tokens under possesion
 """
 function proRataTokenVote(benchmark, candidate, agents)
-    rejectAgents = []
-    proAgents = []
+    rejectAgents = Agent[]
+    proAgents = Agent[]
     proTokens = 0
     quorum = 0
     for agent in agents
@@ -57,5 +57,5 @@ function proRataTokenVote(benchmark, candidate, agents)
             quorum += agent.balance
         end
     end
-    [proTokens > quorum/2, proAgents, rejectAgents]
+    (proTokens > quorum/2, proAgents, rejectAgents)
 end
