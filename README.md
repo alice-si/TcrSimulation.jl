@@ -1,4 +1,5 @@
-## Multi-agent simulation of Token Curated Registries
+# PARAQEET (Parameterized Curation Testing)
+##Multi-agent simulation of Token Curated Registries
 This project implements an environment for testing different variations of the
 [TCR](https://hackernoon.com/token-curated-registry-tcr-design-patterns-4de6d18efa15)
 crypto-economic protocol. Users have the ability to parametrize the core TCR algorithm, define the population of agents
