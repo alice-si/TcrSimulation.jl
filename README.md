@@ -20,7 +20,7 @@ Although TCR gained a lot of attention and there are many startups trying to imp
 
 The final answer to the problems described above will be known only after such a system is fully implemented and deployed to the mass audience which may take several years of development and consume extensive investments. We want to propose a lightweight approach to test the TCR model which can bring approximate answers which is based on computer simulations and is cheaper and faster to execute.
 
-This project uses [Agent-based computational economics (ACE)](https://en.wikipedia.org/wiki/Agent-based_computational_economics) framework, which it’s a relatively new research paradigm aiming to study economic problems as a dynamic model of interacting autonomous agents. Such phenomena could be studied with the help of software components. Using the distributed systems and parallel processing to implement this sort of models often classified a Multi Agent Simulation approach.
+This project uses [Agent-based computational economics (ACE)](https://en.wikipedia.org/wiki/Agent-based_computational_economics) framework, which is a relatively new research paradigm aiming to study economic problems as a dynamic model of interacting autonomous agents. Such phenomena could be studied with the help of software components. Using the distributed systems and parallel processing to implement this sort of models often classified a Multi Agent Simulation approach.
 
 ## Architecture
 
