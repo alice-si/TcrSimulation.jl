@@ -207,7 +207,3 @@ This project is still a work in progress, so if feel free to join and give us a 
 Any forms of contibutions are more than welcome.
 Please create an issue to suggest a change or submit a bug.
 We'll also appreciate new scenarios or simulation modes implemented by you!
-
-## License
-
-This project is released under the [MIT License](LICENSE).
