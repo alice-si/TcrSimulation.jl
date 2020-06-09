@@ -62,15 +62,15 @@ function compareEfficiency()
 end
 ```
 
-It involves iteratively increasing the acc (agents accuracy) parameter and compare how does it affect the behaviour of two different simulation models: with and without a token.
+It involves iteratively increasing the acc (agents accuracy) parameter and compare how it affects the behaviour of two different simulation models: with and without a token.
 
-Every simulation is executed 100 times. Let's take a closer look how it's defined:
+Every simulation is executed 100 times. Let's take a closer look at how it's defined:
 
 ```
 simToken(1000, setupRandomAgents(100, acc, 20), [benchmarkRegistryMean])
 ```
 
-The function name (simToken) defines the model of TCR used (one involving token). The first parameter (1000) is the number of steps, during which agents evaluate the items, the second parameter contains the setup of the population of agents (100 agents chosen from a normal distribution with a defined accurany and factor 20 defining the diveristy) and the last parameter it's a set of statistics.
+The function name (simToken) defines the model of TCR used (one involving token). The first parameter (1000) is the number of steps, during which agents evaluate the items, the second parameter contains the setup of the population of agents (100 agents chosen from a normal distribution with a defined accurany and factor 20 defining the diversity) and the last parameter is a set of statistics.
 
 The last part of the code defines the logic for computing custom statistics like the significance of the difference between two mens:
 
@@ -85,7 +85,7 @@ and the final line is just printing the result to the standard output in the des
 println("$acc, $boost, $test, $significant")
 ```
 
-As the framework is still under the development we wanted to mantain a right balance between encoding common features in predefined functions and allowing users to define their own logic in the most flexible way.
+As the framework is still under development we wanted to mantain the right balance between encoding common features in predefined functions and allowing users to define their own logic in the most flexible way.
 
 ## Results
 
