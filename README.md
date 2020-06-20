@@ -7,7 +7,7 @@ crypto-economic protocol. Users have the ability to parametrize the core TCR alg
 and see how the curation process works in action and under which conditions it's most effective.  
 
 ## TCR
-Token Curated Registry is a mechanism [introduced by Mike Goldin](https://medium.com/@ilovebagels/token-curated-registries-1-0-61a232f8dac7) where a set of actors collectively create and maintain a list of items by voting on which entry should be admitted to the list. There is an intrinsic token that give the holders voting rights proportional to the amount of tokens they posses. The token works as an incentive system to offer the curators benefits for performing their job judiciously.
+Token Curated Registry is a mechanism [introduced by Mike Goldin](https://medium.com/@ilovebagels/token-curated-registries-1-0-61a232f8dac7) where a set of actors collectively create and maintain a list of items by voting on which entry should be admitted to the list. There is an intrinsic token that give the holders voting rights proportional to the amount of tokens they possess. The token works as an incentive system to offer the curators benefits for performing their job judiciously.
 
 In the short term, token holders may get an instant reward for rejecting low quality candidates through the admission mechanism. In order to be considered as a potential list entry, an applicant must put a deposit expressed in the registry tokens. If the item is accepted by the majority of curators the deposit is returned to the applicant. However, if the item is rejected the deposit is divided among those who vote against it, making an instant reward for performing a diligent applicant verification.
 
@@ -29,15 +29,15 @@ The core building blocks of the simulation are **items** which could populate th
 
 
 
-The basic building blocks are combined in higher order objects called **simulations** which encode the algorithm for a certain TCR model. There is also a set of analytical functions, that could be attached to a simulation, in order to provide insgights called **benchmarks**.
+The basic building blocks are combined in higher order objects called **simulations** which encode the algorithm for a certain TCR model. There is also a set of analytical functions, that could be attached to a simulation, in order to provide insights called **benchmarks**.
 
 Simulation modes that are defined in [simulations.jl](/src/simulations/simulations.jl) :
 
 Function | Simulation mode
 --- | ---
-*simSimple* | The basic algorithm where on every step of the iteration there is a new item applying to the registry that is being collectively judged by agents during the majority voting
+*simSimple* | The basic algorithm where on every step of the iteration therehttps://en.wikipedia.org/wiki/Agent-based_computational_economics is a new item applying to the registry that is being collectively judged by agents during the majority voting
 *simChallenge* | Apart from voting on a new appliations, a random agent challenges the item that he consider the worst in the registry
-*simToken* | This mode introduces a token as a mean to reward well-performing agents. During the challenge phase an agent needs to stake some tokens and depending on the results he can either earn more tokens or loose the initial deposit. The exact logic for token redistribution is encoded as a parameter passed to the challenge method.
+*simToken* | This mode introduces a token as a means to reward well-performing agents. During the challenge phase an agent needs to stake some tokens and depending on the results he can either earn more tokens or lose the initial deposit. The exact logic for token redistribution is encoded as a parameter passed to the challenge method.
 
 ## Running simulations
 
@@ -47,7 +47,7 @@ To execute example scenario from the console
 julia ./example/sample-scanarios.jl
 ```
 
-There is a sample code showning how to implement a set of simulations:
+There is a sample code showing how to implement a set of simulations:
 
 ```
 function compareEfficiency()
@@ -91,7 +91,7 @@ As the framework is still under development we wanted to mantain the right balan
 
 ### Compare efficiency of simulation modes
 
-Let's first comapre the efficiency of different simulation modes: simple voting on applicatnts, possibility of challenging existing applicants, necessity to stake tokens for a challenge. All of the modes will be tested at different scenarios where we will manipulate the accuracy of agents. In every scenario all of the agents will have the same fixed accuracy. The scenario will be run over 1000 steps and it will be repeated 20 times to reduce the randomness. This setup could be implemented in a few lines of code:
+Let's first compare the efficiency of different simulation modes: simple voting on applicatnts, possibility of challenging existing applicants, necessity to stake tokens for a challenge. All of the modes will be tested at different scenarios where we will manipulate the accuracy of agents. In every scenario all of the agents will have the same fixed accuracy. The scenario will be run over 1000 steps and it will be repeated 20 times to reduce the randomness. This setup could be implemented in a few lines of code:
 
 ```
 for acc in 0:5:100
@@ -140,7 +140,7 @@ For better visibility let's also look at difference between registry quality at 
 
 ### Gain from tokens at different accuracy
 
-On the previous chart we've noticed that the increase in the registry accuracy caused by token staking differs according to the average accuracy of the agents. Let's try to examine that more closely. We will create two groups of agents, one using tokens and one without them. The only condition that will be manipulated is the average accuracy. We will analyse the resulting registry qaulity at the end of 1000 steps of simulation. We're going to additionaly test the statistical significance of the difference to be check if the gain of tokens is not due to random factors:
+On the previous chart we've noticed that the increase in the registry accuracy caused by token staking differs according to the average accuracy of the agents. Let's try to examine that more closely. We will create two groups of agents, one using tokens and one without them. The only condition that will be manipulated is the average accuracy. We will analyse the resulting registry quality at the end of 1000 steps of simulation. We're going to additionaly test the statistical significance of the difference to be checked if the gain of tokens is not due to random factors:
 
 
 ```
@@ -175,11 +175,11 @@ for noAgents in 10:10:200
     end
 end
 ```
-On the following chart we present only the configuration that displayed a significant improvement of registry quality ( largen thatn 10 points):
+On the following chart we present only the configuration that displayed a significant improvement of registry quality ( larger then 10 points):
 
 ![tcr_chart_optimum_space](https://s3.eu-west-2.amazonaws.com/alice-res/tcr/tcr_chart_optimum_space.png)
 
-We may observe that there is a relation between the number of agents and the number of steps that is required to produce a positive effect of tokens staking. The staking process need time to fully unlock it's potential and the larger group of agents needs the greater number of steps. After a certain point there is no further improvement cause by extending the simulation length.
+We may observe that there is a relation between the number of agents and the number of steps that is required to produce a positive effect of tokens staking. The staking process needs time to fully unlock it's potential and the larger group of agents needs the greater number of steps. After a certain point there is no further improvement caused by extending the simulation length.
 
 
 ### Inner circle of experts
@@ -197,14 +197,14 @@ function expertsInnerCirleSize()
     end
 end
 ```
-At the chart we present the scenario for a population wiht tokens, without them and two control groups consisted only with low accuracy agents and only with experts:
+At the chart we present the scenario for a population with tokens, without them and two control groups consisted only with low accuracy agents and only with experts:
 
 ![tcr_chart_experts_count](https://s3.eu-west-2.amazonaws.com/alice-res/tcr/tcr_chart_experts_count.png)
 
 We see that the more experts enter the population the higher registry quality is achieved. We may observe that the introduction of tokens reduce the ratio of expert that is necessary to produce high quality results from about 40% to 12%.
 
 ## Contribute
-This project is still a work in progress, so if feel free to join and give us a hand building this tool.
-Any forms of contibutions are more than welcome.
+This project is still a work in progress, so feel free to join and give us a hand building this tool.
+Any forms of contributions are more than welcome.
 Please create an issue to suggest a change or submit a bug.
 We'll also appreciate new scenarios or simulation modes implemented by you!
