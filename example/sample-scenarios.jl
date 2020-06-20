@@ -1,8 +1,8 @@
-include("../src/TcrCore.jl")
-using TcrCore, HypothesisTests
+
+using TcrSimulation, HypothesisTests, Statistics
 
 function differentMechanisms()
-    srand(1234)
+    Random.seed!(1234)
     for acc in 0:5:100
         applicationOnly = mean([simSimple(1000, setupAgentsWithFixedAccuracy(100, acc), [benchmarkRegistryMean]) for i in 1:20])[1]
         challenge = mean([simChallenge(1000, setupAgentsWithFixedAccuracy(100, acc), [benchmarkRegistryMean]) for i in 1:20])[1]
@@ -13,7 +13,7 @@ end
 
 
 function tokensAndDiversifications()
-    srand(1234)
+    Random.seed!(1234)
 
     for acc in 0:5:100
         noTokenFixed = mean([simChallenge(1000, setupAgentsWithFixedAccuracy(100, acc), [benchmarkRegistryMean]) for i in 1:30])[1]
@@ -25,7 +25,7 @@ function tokensAndDiversifications()
 end
 
 function tokensAndDiversificationsEffects()
-    srand(1234)
+    Random.seed!(1234)
     divEffects = []
     tokenEffect = []
     tokenDivEffects = []
@@ -74,8 +74,8 @@ function expertsInnerCirleSize()
     end
 end
 
-function compareRedistribution()
-    for acc in 0:5:100
+function compareRedistribution(sweep_range::OrdinalRange)
+    for acc in sweep_range
         challengerOnly = [simToken(1000, setupRandomAgents(100, acc, 20), onlyChallengerRewardRedistribution, [benchmarkRegistryMean])[1] for i in 1:20]
         punishment = [simToken(1000, setupRandomAgents(100, acc, 20), punishmentRedistribution, [benchmarkRegistryMean])[1] for i in 1:20]
         reward = [simToken(1000, setupRandomAgents(100, acc, 20), rewardRedistribution, [benchmarkRegistryMean])[1] for i in 1:20]
@@ -90,7 +90,7 @@ function compareRedistribution()
 end
 
 function runScenarios()
-    compareRedistribution()
+    compareRedistribution(0:5:100)
 end
 
 runScenarios()

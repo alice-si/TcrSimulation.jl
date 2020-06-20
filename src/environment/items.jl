@@ -10,5 +10,5 @@ end
 Calculates the mean quality of the items in the given registry
 """
 function registryMean(registry)
-    length(registry) == 0 ? 0 : mean(registry)
+    length(registry) == 0 ? 0.0 : mean(registry)
 end

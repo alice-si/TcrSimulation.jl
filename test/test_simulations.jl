@@ -1,6 +1,6 @@
-facts("Testing simple simulation with fixed agents and no challenge") do
-    srand(1234)
-    results = TcrCore.simSimple(1000, setupAgentsWithFixedAccuracy(100, 50), [TcrCore.benchmarkRegistryMean])
+@testset "simple simulation with fixed agents and no challenge" begin
+    Random.seed!(1234)
+    results = TcrSimulation.simSimple(1000, setupAgentsWithFixedAccuracy(100, 50), [TcrSimulation.benchmarkRegistryMean])
     print(results)
-    @fact results[1] --> 72.20784862274684
+    @test results[1] == 72.20784862274684
 end

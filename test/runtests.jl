@@ -1,6 +1,6 @@
-include("../src/TcrCore.jl")
 
-using TcrCore, FactCheck
+
+using TcrSimulation, Test, Random
 
 include("test_agents.jl")
 include("test_select_agent.jl")
